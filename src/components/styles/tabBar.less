@@ -1,0 +1,48 @@
+/*
+ * @Author: 杜梦 
+ * @Date: 2018-07-03 10:47:48 
+ * @Last Modified by: 杜梦
+ * @Last Modified time: 2018-07-20 10:09:45
+ */
+@yellow_bg: #F33752;
+.tabBarBox{
+    width: 100vw;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFF;
+    z-index: 777;
+    .tabBarItem{
+        flex-basis: 33.33%;
+        height: 96px;
+        box-sizing: border-box;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        & img{
+            height: 44px;
+        }
+        & span{
+            color:#999;
+            font-size: 20px;
+        }
+        .textActive{
+            color: @yellow_bg;
+        }
+    }
+    &::before{
+        content: "";
+        height: .01rem;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #E5E5E5;
+    }
+}

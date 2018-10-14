@@ -1,0 +1,109 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 2rem;
+    .main{
+        width: 100%;
+
+        .goodItem{
+            width: 100%;
+            min-height: 280px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            overflow: hidden;
+            .checkBox{
+                display: flex;
+                width: 95px;
+                justify-content: center;
+            }
+            .imgBox{
+                width: 160px;
+                min-height: 280px;
+                &>img{
+                    width: 100%;
+                    margin-top: 50px;
+                }
+            }
+            .propBox{
+                flex: 1;
+                min-width: 450px;
+                min-height: 280px;
+                padding: 50px 40px 20px 40px;
+                .name{
+                    width: 100%;
+                    font-size: 26px;
+                    line-height: 37px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .prop{
+                    font-size: 24px;
+                    line-height: 33px;
+                    color: #999999;
+                    margin-top: 10px;
+                }
+                .price{
+                    color: #E91849;
+                    font-size: 30px;
+                    line-height: 42px;
+                    margin-top: 10px;
+                }
+                .stepper{
+                    margin-top: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    &>span{
+                        display: block;
+                        width: 120px;
+                    }
+                }
+            }
+        }
+        .totalBox{
+            width: 100%;
+            width: 100vw;
+            height: 100px;
+            position: fixed;
+            left: 0;
+            bottom: 96px;
+            background: #FFFFFF;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            &>div{
+                display: flex;
+                align-items: center;
+            }
+            .all{
+                &>span{
+                    margin: 0 20px;
+                    font-size: 30px;
+                    color: #737373;
+                }
+            }
+            .price{
+                flex: 1;
+                justify-content: flex-end;
+                padding-right: 20px;
+                font-size: 26px;
+                &>span{
+                    color: #E52622;
+                    font-size: 30px;
+                }
+            }
+            .btn{
+                width: 200px;
+                &>a{
+                    border-radius: 40px;
+                    width: 200px;
+                    height: 80px;
+                    line-height: 80px;
+                }
+            }
+        }   
+    }
+}

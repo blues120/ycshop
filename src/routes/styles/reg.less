@@ -1,0 +1,202 @@
+.rootBox {
+  width: 100%;
+  min-height: 100vh;
+  background: #FFFFFF;
+}
+
+input {
+  font-size: 100% !important;
+}
+
+.main {
+  width: 100%;
+  .topMenu {
+    display: flex;
+    height: 93px;
+    border-bottom: 1px solid #DDDDDD;
+    & > div {
+      flex-basis: 33.33%;
+      height: 93px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      line-height: 93px;
+      & > span {
+        display: block;
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        border-radius: 15px;
+        background: #999999;
+        color: #FFFFFF;
+        line-height: 30px;
+        text-align: center;
+        margin-right: 10px;
+      }
+    }
+    .active {
+      position: relative;
+      & > span {
+        background: #F33752;
+      }
+      & > ::after {
+        content: '';
+        height: 4px;
+        width: 80%;
+        position: absolute;
+        left: 10%;
+        bottom: 0px;
+        background: #F33752;
+      }
+    }
+    .active {
+
+    }
+  }
+
+  .itemList {
+    width: 100%;
+    padding: 0 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .xieyi{
+      height: .5rem;
+      display: flex;
+      align-items: center;
+      margin-top: .3rem;
+      .hov{
+        color: #000;
+      }
+      .hov:hover{
+        color: #0CB2F3;
+      }
+      .Xyuan{
+        margin-right: .25rem;
+        width: .3rem;
+        height: .3rem;
+        background: #2B9BE2;
+        display: inline-block;
+        border-radius: 50%;
+        position: relative;
+        transform: rotate(45deg);
+        border: .02rem solid #bbb;
+      }
+      .Xyuan:after{
+        content: '';
+        width: .1rem;
+        height: .2rem;
+        position: absolute;
+        border-right: .02rem solid #fff;
+        border-bottom: .02rem solid #fff;
+        top: .01rem;
+        left: .07rem;
+      }
+    }
+    & > div {
+      width: 100%;
+      display: none;
+      .inputTitle {
+        font-size: 24px;
+        line-height: 33px;
+        padding-top: 34px;
+        padding-left: 30px;
+      }
+    }
+    .btnBox {
+      display: block;
+      height: 60px;
+      padding-top: 1rem;
+      display: flex;
+      justify-content: space-around;
+      & > div {
+        flex-basis: 220px;
+        height: 60px;
+        & > a {
+          border-radius: 30px;
+        }
+      }
+
+    }
+    .fuWu{
+      border-bottom: none;
+      margin-top: 1.2rem;
+      margin-left: 2.5rem;
+      .ysHover{
+        color: #fff;
+      }
+      .ysHover:hover{
+        cursor: pointer;
+        color: #0CB2F3;
+      }
+
+    }
+    .posMark {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #e4e4e4;
+      z-index: 999999999999;
+      text-align: center;
+      height: auto;
+      overflow-y: auto;
+      div {
+        font-size: .3rem;
+        padding: .1rem .5rem;
+      }
+      h5 {
+        margin-top: .25rem;
+        font-size: .4rem;
+        font-family: 黑体;
+      }
+      p {
+        position: absolute;
+        right: .1rem;
+        top: .1rem;
+        color: #000;
+        width: .5rem;
+        height: .5rem;
+        display: inline-block;
+        z-index: 9999999999999999999999999999999999999999;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          display: inherit;
+        }
+      }
+    }
+    .show {
+      display: block;
+    }
+    .hide {
+      display: none;
+    }
+    // .itemA{
+    //     display: block;
+    // }
+    // .itemB{
+    //     display: block;
+    // }
+    // .itemC{
+    //     display: block;
+    // }
+    .end {
+      text-align: center;
+      font-size: 36px;
+      line-height: 50px;
+      margin-top: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & > span {
+        margin-left: 20px;
+      }
+    }
+  }
+}

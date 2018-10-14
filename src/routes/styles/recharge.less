@@ -1,0 +1,68 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+    .main{
+        width: 100%;
+        padding: 20px;
+        .hide{
+            display: none;
+        }
+        .content{
+            height: 800px;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius:10px;
+            padding: 40px;
+            .title{
+                font-size: 30px;
+                line-height: 42px;
+            }
+            .tiTitle{
+                font-size: 36px;
+                line-height: 160px;
+                text-align: center;
+            }
+            .numInput{
+                margin-top: 67px;
+                &>div{
+                    border: none !important;
+                }
+                &>div::before{
+                    visibility: hidden;
+                }
+                .inputLabel{
+                    font-size: 50px;
+                    font-weight: bold;
+                    position: relative;
+                    top: -15px;
+                }
+            }
+            .number{
+                margin: 40px 0;
+                font-size: 30px;
+                line-height: 42px;
+                color: #999999;
+            }
+            .btnBox{
+                padding-bottom: 107px;
+            }
+            .checkRow{
+                width: 100%;
+                display: flex;
+                height: 60px;
+                &>div{
+                    flex-basis: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    &>img{
+                        width: 60px;
+                        height: 60px;
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

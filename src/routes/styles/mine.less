@@ -1,0 +1,229 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+    .main{
+        width: 100%;
+        .top{
+            width: 100%;
+            height: 470px;
+            overflow: hidden;
+            position: relative;
+            &>div{
+
+                width: 100%;
+            }
+            .topBg{
+                height: 240px;
+                width: 100%;
+                // background-image: url('../../assets/images/minebg.png');
+                // background-size: 100% 100%;
+                background:linear-gradient(to right,rgba(249,141,162,1),rgba(254,213,221,1));
+            }
+            .topContent{
+                width: 100%;
+                height: 250px;
+                position: relative;
+                top: -20px;
+                background: #FFFFFF;
+                border-radius:30px 30px 0px 0px;
+                display: flex;
+                align-items: flex-end;
+                padding: 0 .2rem;
+                &>div{
+                    display: flex;
+                    align-items: center;
+                    flex-basis: 33.33%;
+                    flex-direction: column;
+                    padding-bottom: 30px;
+                    &>span:first-child{
+                        font-size: 26px;
+                        line-height: 50px;
+                        color: #F03345;
+                    }
+                    &>span:last-child{
+                        font-size: 24px;
+                        line-height: 33px;
+                        color: #636363;
+                        margin-top: 20px;
+
+                    }
+                }
+            }
+            .headBox{
+                width: 100%;
+                padding: 0 40px;
+                height: 220px;
+                position: absolute;
+                left: 0;
+                top: 85px;
+                &>div{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100px 10px 10px 100px;
+                    background: #FFFFFF;
+                    box-shadow: 3px 3px 3px 3px #F5F5F9;
+                    padding-left: 60px;
+                    display: flex;
+                    align-items: center;
+                    .leftIcon{
+                        height: 160px;
+                        width: 160px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        &>img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .rightInfo{
+                        height: 180px;
+                        padding-left: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        .name{
+                            font-size: 36px;
+                            line-height: 50px;
+                            &>span{
+                                margin-right: 20px;
+                                margin-left: 20px;
+                                color: #F03345;
+                                font-size: 28px;
+                                line-height: 50px;
+                                text-align: center;
+                            }
+                        }
+                        .rank{
+                            display: flex;
+                            &>span{
+                                display: block;
+                                width:100px;
+                                height:40px;
+                                margin-right: 10px;
+                                color: #999999;
+                                font-size: 24px;
+                                line-height: 40px;
+                                text-align: center;
+                                border-radius:20px;
+                                border:1px solid rgba(254,72,119,1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .menuBox{
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 20px;
+            background: #FFFFFF;
+            .menuLine{
+                width: 100%;
+                .title{
+                    font-size: 30px;
+                    line-height: 80px;
+                    color: #636363;
+                    padding: 0 40px;
+                    border-bottom: 2px solid #DDDDDD;
+                }
+                &>div{
+                    width: 100%;
+                    padding: 0 40px;
+                    min-height: 165px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    .menuItem{
+                        flex-basis: 25%;
+                        height: 165px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        &>div{
+                            height: 40px;
+                            &>img{
+                                width: 40px;
+                            }
+                        }
+                        &>span{
+                            font-size: 22px;
+                            line-height: 33px;
+                            color: #636363;
+                            margin-top: 10px;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        .ranking{
+            width: 100%;
+            margin-top: 20px;
+            background: #FFFFFF;
+            .title{
+                font-size: 30px;
+                line-height: 80px;
+                text-align: center;
+                color: #636363;
+                padding: 0 40px;
+                border-bottom: 2px solid #DDDDDD;
+            }
+            &>div{
+                display: flex;
+                &>div{
+                    flex-basis: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    &>p{
+                        font-size:24px;
+                        text-align: center;
+                        color: #636363;
+                        line-height: 60px;
+                    }
+                    .rankItem{
+                        display: flex;
+                        padding: 30px 0;
+                        &>span{
+                            font-size: 40px;
+                            line-height: 60px;
+                            color: #F33752;
+                            margin-right: 35px;
+                        }
+                        &>div{
+                            width: 60px;
+                            height: 60px;
+                            overflow: hidden;
+                            border-radius: 50%;
+                            &>img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+                .leftRank{
+
+                }
+                .rightRank{
+
+                }
+            }
+        }
+
+
+
+
+        .outBtnBox{
+            width: 100%;
+            padding: 50px;
+        }
+
+
+
+
+
+    }
+}

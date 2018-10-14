@@ -1,0 +1,95 @@
+.rootBox {
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 1rem;
+  .main {
+    width: 100%;
+    .cList {
+      width: 100%;
+      padding: 20px;
+      .goodItem {
+        min-height: 200px;
+        width: 100%;
+        background: #FFFFFF;
+        padding: 10px 20px;
+        display: flex;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 3px #eeeeee;
+        display: flex;
+        align-items: center;
+        .itemLeft {
+          min-height: 180px;
+          width: 180px;
+          overflow: hidden;
+          & > img {
+            width: 180px;
+            height: 180px;
+          }
+        }
+        .itemLeftT {
+          width: 1.2rem;
+          height: 1.2rem;
+          img {
+            width: 100%;
+            height: 100%
+          }
+        }
+        .itemRight {
+          flex: 1;
+          width: calc(~'100vw - 300px');
+          padding-left: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          & > p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .name {
+            font-size: 26px;
+            line-height: 37px;
+          }
+          .prop {
+            color: #999999;
+            font-size: 24px;
+            line-height: 34px;
+          }
+          .price {
+            color: #E91849;
+            font-size: 30px;
+            line-height: 42px;
+          }
+          .num {
+            font-size: 27px;
+            line-height: 35px;
+          }
+        }
+      }
+      .listTitle {
+        width: 100%;
+        display: flex;
+        border-bottom: 1px solid #f5f5f9;
+        & > span {
+          flex-basis: 50%;
+          line-height: 80px;
+          text-align: center;
+          position: relative;
+        }
+        .active {
+          color: #F33752;
+        }
+        .active::after {
+          content: '';
+          background: #F33752;
+          width: 70%;
+          position: absolute;
+          left: 15%;
+          bottom: 0px;
+          height: 2px;
+        }
+      }
+    }
+  }
+}

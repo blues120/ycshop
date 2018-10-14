@@ -1,0 +1,62 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+    .tabBar{
+        box-sizing: border-box;
+        width: 100%;
+        height: .8rem;
+        margin-bottom: 10px;
+        display: flex;
+        &>span{
+            display: block;
+            width: 33.33%;
+            line-height: 80px;
+            text-align: center;
+            font-size: 24px;
+            background: #FFFFFF;
+        }
+        .active{
+            color: #F33752 !important;
+        }
+    }
+    .main{
+        width: 100%;
+        padding: 0 40px;
+        background: #FFFFFF;
+        .teamItem{
+            min-height: 210px;
+            width: 100%;
+            border-bottom: 1px solid #dddddd;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            .headIcon{
+                width: 120px;
+                height: 120px;
+                overflow: hidden;
+                border-radius: 50%;
+                &>img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .info{
+                margin-left: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .name{
+                    font-size: 30px;
+                    line-height: 42px;
+                }
+                .time{
+                    margin-top: 10px;
+                    color: #999999;
+                    font-size: 24px;
+                    line-height: 33px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+    .main{
+        width: 100%;
+        .address{
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 220px;
+            background: #FFFFFF;
+            overflow: hidden;
+            &>span{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100px;
+                &>img{
+                    height: 40px;
+                }
+            }
+            &>div{
+                flex: 1;
+                padding: 40px 0;
+                min-height: 220px;
+                .info{
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 28px;
+                    line-height: 40px;
+                    &>span:first-child{
+                        font-weight: bold;
+                        word-break: break-all;
+                    }
+                }
+                .addr{
+                    font-size: 26px;    
+                    line-height: 33px;
+                    margin-top: 20px;
+                    word-break: break-all;
+                }
+            }
+        }
+
+
+
+        .goodItem{
+            min-height: 200px;
+            width: 100%;
+            background: #FFFFFF;
+            padding: 10px 20px;
+            display: flex;
+            margin-bottom: 5px;
+            .itemLeft{
+                min-height: 180px;
+                width: 180px;
+                overflow: hidden;
+                &>img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .itemRight{
+                flex: 1;
+                width: calc(~'100vw - 300px');
+                padding-left: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                &>p{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .name{
+                    font-size: 26px;
+                    line-height: 37px;
+                }
+                .prop{
+                    color: #999999;
+                    font-size: 24px;
+                    line-height: 34px;
+                }
+                .price{
+                    color: #E91849;
+                    font-size: 30px;
+                    line-height: 42px;
+                }
+                .num{
+                    font-size: 27px;
+                    line-height: 35px;
+                    display: flex;
+                    justify-content: space-between;
+                    &>span{
+                        min-width: 4em;
+                        text-align: center;
+                        margin-right: 20px;
+                        padding: 0 1em;
+                        font-size: 24px;
+                        line-height: 40px;
+                        border-radius: 20px;
+                        border: 1px solid #999999;
+                    }
+                }
+            }
+        }
+
+
+        .orderInfo{
+            width: 100%;
+            padding: 30px;
+            background: #FFFFFF;
+            &>p{
+                font-size: 24px;
+                line-height: 44px;
+                &>span{
+                    width: 4em;
+                    margin-right: 1em;
+                }
+            }
+        }
+    }
+}

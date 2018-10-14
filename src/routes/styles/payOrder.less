@@ -1,0 +1,69 @@
+.rootBox{
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 1rem;
+    .main{
+        width: 100%;
+        .topInfo{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #FFFFFF;
+            padding: 40px;
+            .orderNumber{
+                font-size: 30px;
+                line-height: 44px;
+                margin-bottom: 20px;
+                color: #bababa;
+                align-self: baseline;
+            }
+            .oldPrice{
+                font-size: 55px;
+                line-height: 70px;
+                color: #bababa;
+                text-decoration: line-through;
+                margin-bottom: 20px;
+            }
+            .price{
+                font-size: 72px;
+                line-height: 90px;
+            }
+            .jifen{
+                width: 100%;
+                flex-basis: 100%;
+                display: flex;
+                justify-content: space-between;
+                &>span{
+                    font-size: 28px;
+                    line-height: 45px;
+                    color: #999999;
+                }
+            }
+        }
+
+        .chooseType{
+            background: #FFFFFF;
+            width: 100%;
+            padding: 0 20px;
+            .title{
+                font-size: 36px;
+                line-height: 90px;
+                color: #777777;
+                padding-left: 40px;
+            }
+            .icon{
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        .btnBox{
+            width: 100%;
+            padding: 50px 40px;
+            &>a{
+                border-radius: 44px;
+            }
+        }
+    }
+}
