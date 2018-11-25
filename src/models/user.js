@@ -6,8 +6,32 @@
  */
 
 // 引入所需请求
-import {systemConfig,tokenLogin,addrList,addrDetail,cardList,recallList,exchangeList,originalList,availableList,teamList,rechargeList,merchant,agent,orderList,orderDetail,transferList,merchantGoods,collectionList,yuEList,taoBao} from '../services/user';
-import { routerRedux } from 'dva/router';
+import {
+  taoBao,
+  TuiSY,
+  systemConfig,
+  tokenLogin,
+  addrList,
+  addrDetail,
+  cardList,
+  recallList,
+  exchangeList,
+  originalList,
+  availableList,
+  teamList,
+  rechargeList,
+  merchant,
+  agent,
+  orderList,
+  orderDetail,
+  transferList,
+  merchantGoods,
+  collectionList,
+  yuEList
+} from '../services/user';
+import {routerRedux} from 'dva/router';
+import {Toast} from 'antd-mobile';
+import history from 'history/createHashHistory';
 var queryString = require('querystring');
 export default {
 
@@ -15,55 +39,57 @@ export default {
   namespace: 'user',
   //state 对象，大部分数据存储的位置
   state: {
-    systemConfig:{},
-    user:{},
-    addrList:[],
-    addrDetail:{},
-    cardList:[],
-    recallList:[],
-    exchangeList:[],
-    originalList:[],
-    availableList:[],
-    teamList:[],
-    rechargeList:[],
-    orderList:[],
-    orderDetail:{},
-    transferList:[],
-    collectionList:[],
-    merchantList:[],
-    merchant:{},
-    merchantGoods:[],
-    agentList:[],
-    agent:{},
-    yuEList:[],
-    data:[],
-    pagination:{
-      page:1,
-      total:0,
-      hasMore:false
+    systemConfig: {},
+    user: {},
+    addrList: [],
+    addrDetail: {},
+    cardList: [],
+    recallList: [],
+    exchangeList: [],
+    originalList: [],
+    availableList: [],
+    teamList: [],
+    rechargeList: [],
+    orderList: [],
+    orderDetail: {},
+    transferList: [],
+    collectionList: [],
+    merchantList: [],
+    merchant: {},
+    merchantGoods: [],
+    agentList: [],
+    agent: {},
+    yuEList: [],
+    data: [],
+    tuisyList: [],
+    taobaoLists: [],
+    pagination: {
+      page: 1,
+      total: 0,
+      hasMore: false
     }
   },
 
   //加载组件前执行的请求
   subscriptions: {
-    setup ({ dispatch, history }) {
+    setup({dispatch, history}) {
 
       history.listen(location => {
         dispatch({
-          type:'getUser',
-          payload:{
-            pagination:{
-              page:1,
-              total:0,
-              hasMore:false
+          type: 'getUser',
+          payload: {
+            pagination: {
+              page: 1,
+              total: 0,
+              hasMore: false
             }
           }
         })
         // 检测是否登录，
-        if(location.pathname!="/login"&&location.pathname!="/reg"&&location.pathname!="/chgpwd"){
+        if (location.pathname != "/login" && location.pathname != "/reg" && location.pathname != "/chgpwd") {
           dispatch({
             type: 'userRefresh',
-            payload:{
+            payload: {
               dispatch
             }
           });
@@ -71,11 +97,10 @@ export default {
         }
 
 
-
         // 判断所处页面,从而进行请求
         if (location.pathname === '/') {
           // 这里是获取地址栏的参数'parsed'获取后为对象如{id:1}
-          location.search=location.search.replace("?","")
+          location.search = location.search.replace("?", "")
           const parsed = queryString.parse(location.search);
           // dispatch({
           //   type: 'getShopList',
@@ -84,132 +109,138 @@ export default {
           //     page:1
           //   }
           // });
-        }else if(location.pathname === '/myaddr'){
+        } else if (location.pathname === '/myaddr') {
           dispatch({
-            type:'getAddrList'
+            type: 'getAddrList'
           })
-        }else if(location.pathname === '/myaddredit'){
-          location.search=location.search.replace("?","")
+        } else if (location.pathname === '/myaddredit') {
+          location.search = location.search.replace("?", "")
           const parsed = queryString.parse(location.search);
-          if(parsed._id){
+          if (parsed._id) {
             dispatch({
-              type:'getAddrDetail',
-              payload:{
-                _id:parsed._id
+              type: 'getAddrDetail',
+              payload: {
+                _id: parsed._id
               }
             })
           }
-        }else if(location.pathname === '/bankcard'){
+        } else if (location.pathname === '/bankcard') {
           dispatch({
-            type:'getCardList'
+            type: 'getCardList'
           })
-        }else if(location.pathname === '/recharge'){
-          location.search=location.search.replace("?","")
+        } else if (location.pathname === '/recharge') {
+          location.search = location.search.replace("?", "")
           const parsed = queryString.parse(location.search);
-          if(parsed.type==='1'){
+          if (parsed.type === '1') {
             dispatch({
-              type:'getCardList',
+              type: 'getCardList',
             })
             dispatch({
-              type:'getSystemConfig',
+              type: 'getSystemConfig',
             })
           }
-        }else if(location.pathname === '/recalllist'){
+        } else if (location.pathname === '/recalllist') {
           dispatch({
-            type:'getRecallList'
+            type: 'getRecallList'
           })
-        }else if(location.pathname === '/exchangelist'){
+        } else if (location.pathname === '/exchangelist') {
           dispatch({
-            type:'getExchangeList'
+            type: 'getExchangeList'
           })
-        }else if(location.pathname === '/originallist'){
+        } else if (location.pathname === '/originallist') {
           dispatch({
-            type:'getOriginalList'
+            type: 'getOriginalList'
           })
-        }else if(location.pathname === '/availablelist'){
+        } else if (location.pathname === '/availablelist') {
           dispatch({
-            type:'getAvailableList'
+            type: 'getAvailableList'
           })
-        }else if(location.pathname === '/team'){
+        } else if (location.pathname === '/team') {
           dispatch({
-            type:'getTeamList'
+            type: 'getTeamList'
           })
-        }else if(location.pathname === '/rechargelist'){
+        } else if (location.pathname === '/rechargelist') {
           dispatch({
-            type:'getRechargeList'
+            type: 'getRechargeList'
           })
-        }else if(location.pathname === '/merchant'){
+        } else if (location.pathname === '/merchant') {
           dispatch({
-            type:'getMerchant'
+            type: 'getMerchant'
           })
-        }else if(location.pathname === '/agent'){
+        } else if (location.pathname === '/agent') {
           dispatch({
-            type:'getAgent'
+            type: 'getAgent'
           })
-        }else if(location.pathname === '/myorder'){
+        } else if (location.pathname === '/myorder') {
           dispatch({
             type: 'getOrderList',
-            payload:{
-              page:1,
-              size:10,
-              state:-1
+            payload: {
+              page: 1,
+              size: 10,
+              state: -1
             }
           });
-        }else if(location.pathname === '/myorderdetail'){
-          location.search=location.search.replace("?","")
+        } else if (location.pathname === '/myorderdetail') {
+          location.search = location.search.replace("?", "")
           const parsed = queryString.parse(location.search);
-          if(parsed._id){
+          if (parsed._id) {
             dispatch({
-              type:'getOrderDetail',
-              payload:{
-                _id:parsed._id
+              type: 'getOrderDetail',
+              payload: {
+                _id: parsed._id
               }
             })
           }
-        }else if(location.pathname === '/transferlist'){
+        } else if (location.pathname === '/transferlist') {
           dispatch({
-            type:'getTransferList'
+            type: 'getTransferList'
           })
-        }else if(location.pathname === '/merchantinfo'){
+        } else if (location.pathname === '/merchantinfo') {
           dispatch({
-            type:'getMerchant'
+            type: 'getMerchant'
           })
-        }else if(location.pathname === '/merchantgoods'){
+        } else if (location.pathname === '/merchantgoods') {
           dispatch({
-            type:'getMerchantGoods'
+            type: 'getMerchantGoods'
           })
-        }else if(location.pathname === '/collectionlist'){
+        } else if (location.pathname === '/collectionlist') {
           dispatch({
-            type:'getCollectionList'
+            type: 'getCollectionList'
           })
-        }else if(location.pathname === '/yuelist'){
+        } else if (location.pathname === '/yuelist') {
           dispatch({
-            type:'getYuEList'
+            type: 'getYuEList'
           })
-        }else if(location.pathname === '/record'){
+
+        } else if (location.pathname === '/taobao') {
           dispatch({
-            type:'record'
+            type: 'Taobao',
+          })
+
+        } else if (location.pathname === '/tuisy') {
+          dispatch({
+            type: 'tuisy'
+          })
+        } else if (location.pathname === '/record') {
+          dispatch({
+            type: 'record'
           })
         }
-        else if(location.pathname === '/recharget'){
-          location.search=location.search.replace("?","")
+        else if (location.pathname === '/recharget') {
+          location.search = location.search.replace("?", "")
           const parsed = queryString.parse(location.search);
-          if(parsed.type==='1'){
+          if (parsed.type === '1') {
             dispatch({
-              type:'getCardList',
+              type: 'getCardList',
             })
             dispatch({
-              type:'getSystemConfig',
+              type: 'getSystemConfig',
             })
           }
           dispatch({
-            type:'getMerchant'
+            type: 'getMerchant'
           })
         }
-
-
-
-
 
 
       })
@@ -219,7 +250,7 @@ export default {
   //远程请求信息
   effects: {
     // 获取系统配置
-    *getSystemConfig({ payload }, {call, put}) {
+    * getSystemConfig({payload}, {call, put}) {
       const data = yield call(systemConfig);
       if (data.status) {
         yield put({
@@ -228,18 +259,17 @@ export default {
         })
       }
     },
-    *record({ payload }, {call, put}) {
-      const data = yield call(taoBao);
-      console.log(data,'rlycs');
-      if (data.status) {
-        yield put({
-          type: 'recordSuccess',
-          payload: {data}
-        })
-      }
-    },
+    // *record({ payload }, {call, put}) {
+    //   const data = yield call(taoBao);
+    //   if (data.status) {
+    //     yield put({
+    //       type: 'recordSuccess',
+    //       payload: {data}
+    //     })
+    //   }
+    // },
     // 获取商家基本信息
-    *userRefresh({ payload }, {call, put}) {
+    * userRefresh({payload}, {call, put}) {
       const data = yield call(tokenLogin);
       if (data.status) {
         yield put({
@@ -247,12 +277,12 @@ export default {
           payload: {user: data.resource}
         })
       }
-      else{
+      else {
         payload.dispatch(routerRedux.push({pathname: '/login'}));
       }
     },
     // 获取地址列表
-    *getAddrList({ payload }, {call, put}) {
+    * getAddrList({payload}, {call, put}) {
       const data = yield call(addrList);
       if (data.status) {
         yield put({
@@ -262,8 +292,8 @@ export default {
       }
     },
     // 获取地址详情
-    *getAddrDetail({ payload }, {call, put}) {
-      const data = yield call(addrDetail,payload?payload:{});
+    * getAddrDetail({payload}, {call, put}) {
+      const data = yield call(addrDetail, payload ? payload : {});
       if (data.status) {
         yield put({
           type: 'getUser',
@@ -273,8 +303,8 @@ export default {
     },
 
     // 获取银行卡列表
-    *getCardList({ payload }, {call, put}) {
-      const data = yield call(cardList,payload?payload:{});
+    * getCardList({payload}, {call, put}) {
+      const data = yield call(cardList, payload ? payload : {});
       if (data.status) {
         yield put({
           type: 'getUser',
@@ -284,30 +314,30 @@ export default {
     },
 
     // 获取提现列表
-    *getRecallList({ payload }, {call, put ,select}) {
+    * getRecallList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.recallList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {recallList:List}
+          payload: {recallList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(recallList,payload);
+      const data = yield call(recallList, payload);
       if (data.status) {
-        let recallList=List.concat(data.resource);
+        let recallList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             recallList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -316,30 +346,30 @@ export default {
     },
 
     // 获取转换列表
-    *getExchangeList({ payload }, {call, put ,select}) {
+    * getExchangeList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.exchangeList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {exchangeList:List}
+          payload: {exchangeList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(exchangeList,payload);
+      const data = yield call(exchangeList, payload);
       if (data.status) {
-        let exchangeList=List.concat(data.resource);
+        let exchangeList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             exchangeList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -347,30 +377,30 @@ export default {
       }
     },
     // 获取可用积分变动记录
-    *getAvailableList({ payload }, {call, put ,select}) {
+    * getAvailableList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.availableList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {availableList:List}
+          payload: {availableList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(availableList,payload);
+      const data = yield call(availableList, payload);
       if (data.status) {
-        let availableList=List.concat(data.resource);
+        let availableList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             availableList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -378,30 +408,30 @@ export default {
       }
     },
     // 获取原始积分变动记录
-    *getOriginalList({ payload }, {call, put ,select}) {
+    * getOriginalList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.originalList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {originalList:List}
+          payload: {originalList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(originalList,payload);
+      const data = yield call(originalList, payload);
       if (data.status) {
-        let originalList=List.concat(data.resource);
+        let originalList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             originalList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -409,30 +439,30 @@ export default {
       }
     },
     // 获取团队列表记录
-    *getTeamList({ payload }, {call, put ,select}) {
+    * getTeamList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.teamList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1||payload.changed){
-        List=[];
+      if (!payload || payload.page === 1 || payload.changed) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {teamList:List}
+          payload: {teamList: List}
         })
       }
-      if(!payload){
-        payload={page:1,size:10,type:1};
+      if (!payload) {
+        payload = {page: 1, size: 10, type: 1};
       }
-      const data = yield call(teamList,payload);
+      const data = yield call(teamList, payload);
       if (data.status) {
-        let teamList=List.concat(data.resource);
+        let teamList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             teamList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -440,62 +470,65 @@ export default {
       }
     },
     // 获取充值记录
-    *getRechargeList({ payload }, {call, put ,select}) {
+    * getRechargeList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.rechargeList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {rechargeList:List}
+          payload: {rechargeList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(rechargeList,payload);
+      const data = yield call(rechargeList, payload);
       if (data.status) {
-        let rechargeList=List.concat(data.resource);
+        let rechargeList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             rechargeList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
           }
         })
       }
     },
     // 获取商家
-    *getMerchant({ payload }, {call, put ,select}) {
+    * getMerchant({payload}, {call, put, select}) {
       let List = yield select(state => state.user.merchantList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1||payload.changed){
-        List=[];
+      if (!payload || payload.page === 1 || payload.changed) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {merchantList:List}
+          payload: {merchantList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size||!payload.state){
-        payload={page:1,size:10,state:1};
+      if (!payload || !payload.page || !payload.size || !payload.state) {
+        payload = {page: 1, size: 10, state: 1};
       }
-      if(payload.changed){payload.page=1};
-      const data = yield call(merchant,payload);
+      if (payload.changed) {
+        payload.page = 1
+      }
+      ;
+      const data = yield call(merchant, payload);
       if (data.status) {
-        let merchantList=List.concat(data.resource);
+        let merchantList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             merchantList,
-            merchant:data.merchant,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            merchant: data.merchant,
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -503,31 +536,31 @@ export default {
       }
     },
     // 获取代理
-    *getAgent({ payload }, {call, put ,select}) {
+    * getAgent({payload}, {call, put, select}) {
       let List = yield select(state => state.user.agentList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {agentList:List}
+          payload: {agentList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size||!payload.state){
-        payload={page:1,size:10,state:1};
+      if (!payload || !payload.page || !payload.size || !payload.state) {
+        payload = {page: 1, size: 10, state: 1};
       }
-      const data = yield call(agent,payload);
+      const data = yield call(agent, payload);
       if (data.status) {
-        let agentList=List.concat(data.resource);
+        let agentList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             agentList,
-            agent:data.agent,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            agent: data.agent,
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -535,27 +568,27 @@ export default {
       }
     },
     // 获取我的订单列表
-    *getOrderList({ payload }, {call, put ,select}) {
+    * getOrderList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.orderList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1||payload.changed){
-        List=[];
+      if (!payload || payload.page === 1 || payload.changed) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {orderList:List}
+          payload: {orderList: List}
         })
       }
-      const data = yield call(orderList,payload);
+      const data = yield call(orderList, payload);
       if (data.status) {
-        let orderList=List.concat(data.resource);
+        let orderList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             orderList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -563,8 +596,8 @@ export default {
       }
     },
     // 获取订单详情
-    *getOrderDetail({ payload }, {call, put}) {
-      const data = yield call(orderDetail,payload?payload:{});
+    * getOrderDetail({payload}, {call, put}) {
+      const data = yield call(orderDetail, payload ? payload : {});
       if (data.status) {
         yield put({
           type: 'getUser',
@@ -573,30 +606,30 @@ export default {
       }
     },
     // 获取线下支付记录列表
-    *getTransferList({ payload }, {call, put ,select}) {
+    * getTransferList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.transferList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {transferList:List}
+          payload: {transferList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(transferList,payload);
+      const data = yield call(transferList, payload);
       if (data.status) {
-        let transferList=List.concat(data.resource);
+        let transferList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             transferList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -604,30 +637,30 @@ export default {
       }
     },
     // 获取店铺商品列表
-    *getMerchantGoods({ payload }, {call, put ,select}) {
+    * getMerchantGoods({payload}, {call, put, select}) {
       let List = yield select(state => state.user.merchantGoods);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {merchantGoods:List}
+          payload: {merchantGoods: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
       }
-      const data = yield call(merchantGoods,payload);
+      const data = yield call(merchantGoods, payload);
       if (data.status) {
-        let merchantGoods=List.concat(data.resource);
+        let merchantGoods = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             merchantGoods,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -635,8 +668,8 @@ export default {
       }
     },
     // 获取用户收藏列表
-    *getCollectionList({ payload }, {call, put}) {
-      const data = yield call(collectionList,payload?payload:{});
+    * getCollectionList({payload}, {call, put}) {
+      const data = yield call(collectionList, payload ? payload : {});
       if (data.status) {
         yield put({
           type: 'getUser',
@@ -646,31 +679,30 @@ export default {
     },
 
     // 获取余额明细列表
-    *getYuEList({ payload }, {call, put ,select}) {
+    * getYuEList({payload}, {call, put, select}) {
       let List = yield select(state => state.user.yuEList);
       // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
-      if(!payload||payload.page===1){
-        List=[];
+      if (!payload || payload.page === 1) {
+        List = [];
         yield put({
           type: 'getUser',
-          payload: {yuEList:List}
+          payload: {yuEList: List}
         })
       }
-      if(!payload||!payload.page||!payload.size){
-        payload={page:1,size:10};
+      if (!payload || !payload.page || !payload.size) {
+           payload = {page: 1, size: 10};
       }
-      const data = yield call(yuEList,payload);
-      console.log(data);
+      const data = yield call(yuEList, payload);
       if (data.status) {
-        let yuEList=List.concat(data.resource);
+        let yuEList = List.concat(data.resource);
         yield put({
           type: 'updateList',
           payload: {
             yuEList,
-            pagination:{
-              total:data.sum,
-              page:payload.page,
-              size:payload.size
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
             }
 
           }
@@ -678,57 +710,172 @@ export default {
       }
     },
 
+    * Taobao({payload}, {call, put, select}) {
+      let list = yield select(state => state.user.taobaoLists);
+      if (!payload || payload.page === 1) {
+        list = [];
+        yield put({
+          type: 'getList',
+          payload: {taobaoLists: list, pagination: {
+              total: 150,
+              page: 1,
+              size:20
+            }}
+        })
+      }
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 20, topcate: '特价'};
+      }
+      console.log(payload,'当前payload');
+      const data = yield call(taoBao, payload);
+
+      if (data) {
+        //看看是搜索数据 还是点击数据
+        if(data.result_list){
+          /*搜索数据*/
+          let taobaoLists = list.concat(data.result_list);
+          yield put({
+            type: 'updateList',
+            payload: {
+              taobaoLists,
+              pagination: {
+                total: 150,
+                page: payload.page,
+                size: payload.size
+              }
+            }
+          })
+        }else if(data.resource&&data.resource.data){
+          /*点击数据*/
+          let taobaoLists = list.concat(data.resource.data);
+          console.log(taobaoLists,'我草个DJ');
+          yield put({
+            type: 'updateList',
+            payload: {
+              taobaoLists,
+              pagination: {
+                total: 150,
+                page: payload.page,
+                size: payload.size
+              }
+            }
+          })
+        }
+
+          // let taobaoLists = list.concat([]);
+          // yield put({
+          //   type: 'updateList',
+          //   payload: {
+          //     taobaoLists,
+          //     pagination: {
+          //       total: 200,
+          //       page: payload.page,
+          //       size: payload.size
+          //     }
+          //   }
+          // });
 
 
 
 
-  },
+        }
+
+      },
+    * tuisy({payload}, {call, put, select}) {
+      let List = yield select(state => state.user.tuisyList);
+      // 如果是首次进入页面或其他原因,原始列表设为空,写法固定
+      if (!payload || payload.page === 1) {
+        List = [];
+        yield put({
+          type: 'getUser',
+          payload: {tuisyList: List}
+        })
+      }
+      if (!payload || !payload.page || !payload.size) {
+        payload = {page: 1, size: 10};
+      }
+      const data = yield call(TuiSY, payload);
+      console.log(data,'xxx?');
+      if (data.status) {
+        let tuisyList = List.concat(data.resource);
+        yield put({
+          type: 'updateList',
+          payload: {
+            tuisyList,
+            pagination: {
+              total: data.sum,
+              page: payload.page,
+              size: payload.size
+            }
+
+          }
+        })
+      }
+    }
+    },
+
+
+
+
 
   //reducer 改变数据的唯一途径
   reducers: {
 
     // 基本使用
     getUser(state, action) {
-      return { ...state, ...action.payload };
+      return {...state, ...action.payload};
+    },
+    getList(state, action) {
+      return {...state, ...action.payload};
     },
     recordSuccess(state, action) {
-      return { ...state, ...action.payload };
+      return {...state, ...action.payload};
     },
     // 删除地址
     deleteAddr(state, action) {
-      const addrList=state.addrList;
-      let index=action.payload.index;
-      addrList.splice(index,1);
-      return { ...state, addrList };
+      const addrList = state.addrList;
+      let index = action.payload.index;
+      addrList.splice(index, 1);
+      return {...state, addrList};
     },
     // 默认地址
     defaultAddr(state, action) {
-      const addrList=state.addrList;
-      let {isDefault,index,_id}=action.payload;
-      addrList.map((i,_index)=>{
-        addrList[_index].isDefault=false;
+      const addrList = state.addrList;
+      let {isDefault, index, _id} = action.payload;
+      addrList.map((i, _index) => {
+        addrList[_index].isDefault = false;
       })
-      addrList[index].isDefault=isDefault;
-      return { ...state, addrList };
+      addrList[index].isDefault = isDefault;
+      return {...state, addrList};
     },
 
 
     // 更新列表
-    updateList(state,action){
+    updateList(state, action) {
       const {pagination} = action.payload;
-      let total= pagination.total;
-      let size= pagination.size;
-      let page=pagination.page;
+      let total = pagination.total;
+      let size = pagination.size;
+      let page = pagination.page;
       // 判断当前页面是否是最后一页,从而判断是否还有更多,以控制页面是否继续加载,
-      console.log("!!!!!!",page, size, total);
-      if(page*size<total){
-        action.payload.pagination.hasMore=true;
-      }else{
-        action.payload.pagination.hasMore=false
+      if (page * size < total) {
+        action.payload.pagination.hasMore = true;
+      } else {
+        action.payload.pagination.hasMore = false
       }
-      return {...state,...action.payload}
+        return {...state, ...action.payload}
     },
-
+    updateTaobaoLists(state, action) {
+      const {pagination} = action.payload;
+      let total = pagination.total,
+        size = pagination.size,
+        page = pagination.page;
+      if (page * size < total) {
+        action.payload.pagination.hasMore = true;
+      } else {
+        action.payload.pagination.hasMore = false;
+      }
+      return {...state, ...action.payload}
+    },
 
 
   }

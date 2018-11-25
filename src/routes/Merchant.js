@@ -33,7 +33,6 @@ export default class Merchant extends Component {
     loadFunc(changed){
         const {dispatch,userData}=this.props;
         const {state}=this.state;
-        console.log("#####===",state);
         let page=userData.pagination.page+1;
         let payload={page,size:10,state};
         if(changed){payload.changed=true};
@@ -51,9 +50,7 @@ export default class Merchant extends Component {
         const {state}=this.state;
         let hasMore=userData.pagination.hasMore;
         let merchant=userData.merchant;
-      console.log(merchant,'z');
       let merchantList=userData.merchantList;
-      console.log(userData,'xxxxx');
       // 传入navbBar参数
         const navBarProps = {
             leftVisible:true,
@@ -111,7 +108,7 @@ export default class Merchant extends Component {
                                       if(state===1){
                                         return(
                                           <div key={index} className={styles.cardItem}>
-                                            <p><span>订单编号： </span><span>{i._id}</span></p>
+                                            <p><span>订单编号： </span><span>{i.merchantOrderNumber}</span></p>
                                             <p><span>订单金额： </span><span>{i.gold?(Math.round(parseFloat((i.gold)*100))/100):0}</span></p>
                                             <p><span>订单时间： </span><span>{timetrans(i.createTime)}</span></p>
                                           </div>
@@ -119,7 +116,7 @@ export default class Merchant extends Component {
                                       }else if(state===2){
                                         return(
                                           <div key={index} className={styles.cardItem}>
-                                            <p><span>提现编号： </span><span>{i._id}</span></p>
+                                            <p><span>提现编号： </span><span>{i.merchantOrderNumber}</span></p>
                                             <p><span>提现金额： </span><span>{i.waitGold?(Math.round(parseFloat((i.waitGold)*100))/100):0}</span></p>
                                             <p><span>申请状态： </span><span>{i.state===1?'等待审核':(i.state===2?'审核通过':'审核驳回')}</span></p>
                                             <p><span>银行名称： </span><span>{i.bankCardInfo?i.bankCardInfo.bankName:''}</span></p>

@@ -6,8 +6,8 @@
  */
 
 // 引入所需请求
-import {tokenLogin,systemConfig,addrDetail,getznx} from '../services/user';
-import {carouselList,classifyList,newsList,hotGoodsList,goodList,goodDetail,cartList,temporaryOrder,defaultAddr,orderInfo,reviewList,checkCollection,shopInfo,shopList,classify} from '../services/shop';
+import {jifenDetail,jinFenLists,tokenLogin,systemConfig,addrDetail,getznx} from '../services/user';
+import {coptemporaryOrder,carouselList,classifyList,newsList,hotGoodsList,goodList,goodDetail,cartList,temporaryOrder,defaultAddr,orderInfo,reviewList,checkCollection,shopInfo,shopList,classify} from '../services/shop';
 
 import { routerRedux } from 'dva/router';
 var queryString = require('querystring');
@@ -59,6 +59,8 @@ export default {
     shopList:[],
 
     classify:[],
+    findsData:[],
+    jifenDetailData:{},
     pagination:{
       page:1,
       total:0,
@@ -109,7 +111,7 @@ export default {
           });
 
         }else if(location.pathname === '/goodlist'){
-          location.search=location.search.replace("?","")
+          location.search=location.search.replace("?","");
           const parsed = queryString.parse(location.search);
           if(parsed.keyword){
             dispatch({
@@ -145,7 +147,7 @@ export default {
 
         }
         else if(location.pathname === '/gooddetail'){
-          location.search=location.search.replace("?","")
+          location.search=location.search.replace("?","");
           const parsed = queryString.parse(location.search);
           dispatch({
             type: 'getSystemConfig'
@@ -180,7 +182,7 @@ export default {
             type: 'getCartList'
           });
         }else if(location.pathname === '/confirmorder'){
-          location.search=location.search.replace("?","")
+          location.search=location.search.replace("?","");
           const parsed = queryString.parse(location.search);
           dispatch({
             type: 'getTemporaryOrder'
@@ -197,7 +199,26 @@ export default {
               type: 'getDefaultAddr'
             });
           }
-        }else if(location.pathname === '/payorder'){
+        }else if(location.pathname === '/cop'){
+          location.search=location.search.replace("?","");
+          const parsed = queryString.parse(location.search);
+          dispatch({
+            type: 'copgetTemporaryOrder'
+          });
+          if(parsed.addrid){
+            dispatch({
+              type: 'getAddrDetail',
+              payload:{
+                _id:parsed.addrid,
+              }
+            });
+          }else{
+            dispatch({
+              type: 'getDefaultAddr'
+            });
+          }
+        }
+        else if(location.pathname === '/payorder'){
           location.search=location.search.replace("?","")
           const parsed = queryString.parse(location.search);
           dispatch({
@@ -271,6 +292,42 @@ export default {
             type: 'getClassify'
           });
 
+        }else if(location.pathname === '/findings'){
+          dispatch({
+            type: 'findings'
+          });
+
+        }else if(location.pathname === '/jifendetail'){
+          location.search=location.search.replace("?","");
+          const parsed = queryString.parse(location.search);
+          dispatch({
+            type: 'getSystemConfig'
+          });
+          if(parsed._id){
+            dispatch({
+              type: 'jifendetail',
+              payload:{
+                _id:parsed._id,
+              }
+            });
+            dispatch({
+              type: 'getReviewList',
+              payload:{
+                goodsId:parsed._id,
+                page:1,
+                size:10
+              }
+            });
+            dispatch({
+              type: 'getCheckCollection',
+              payload:{
+                _id:parsed._id,
+              }
+            });
+
+
+          }
+
         }
 
 
@@ -282,15 +339,55 @@ export default {
 
   //远程请求信息
   effects: {
-    // 获取系统配置
-    *getSystemConfig({ payload }, {call, put}) {
-      const data = yield call(systemConfig);
-      if (data.status) {
+    *jifendetail({ payload }, {call, put}) {
+      const jifenDetailData = yield call(jifenDetail,payload);
+      if(jifenDetailData.status){
         yield put({
-          type: 'getUser',
-          payload: {systemConfig: data.resource[0].appSet}
+          type: 'jifendetailSuccess',
+          payload:{jifenDetailData:jifenDetailData.resource}
         })
       }
+
+    },
+    /*积分商城*/
+
+    *findings({ payload }, {call, put,select}) {
+      let List = yield select(state => state.shop.findsData);
+      if(!payload||payload.page===1){
+        List=[];
+        yield put({
+          type:'getfinds',
+          payload:{findsData:List}
+        })
+      }
+      if(!payload||!payload.page||!payload.size){
+        payload={page:1,size:5}
+      }
+      const data = yield call(jinFenLists,payload);
+      if (data.status) {
+        let findsData=List.concat(data.resource);
+        yield put({
+          type: 'findsSuccess',
+          payload: {
+            findsData,
+            pagination:{
+              total:data.sum,
+              page:payload.page,
+              size:payload.size
+            }
+          }
+        })
+      }
+    },
+    // 获取系统配置
+    *getSystemConfig({ payload }, {call, put}) {
+        const data = yield call(systemConfig);
+        if (data.status) {
+          yield put({
+            type: 'getUser',
+            payload: {systemConfig: data.resource[0].appSet}
+          })
+        }
     },
     // 获取基本信息
     *userRefresh({ payload }, {call, put}) {
@@ -460,6 +557,17 @@ export default {
         })
       }
     },
+    /*cop*/
+
+    *copgetTemporaryOrder({ payload }, {call, put}) {
+      const data = yield call(coptemporaryOrder,payload);
+      if (data.status) {
+        yield put({
+          type: 'getUser',
+          payload: {temporaryOrder: data.resource}
+        })
+      }
+    },
     // 获取默认地址
     *getDefaultAddr({ payload }, {call, put}) {
       const data = yield call(defaultAddr,payload?payload:{});
@@ -595,6 +703,25 @@ export default {
 
   //reducer 改变数据的唯一途径
   reducers: {
+    /*积分详情页面数据*/
+    jifendetailSuccess(state,action){
+      return {...state,...action.payload}
+    },
+    findsSuccess(state, action) {
+      const {pagination}=action.payload;
+      let total=pagination.total;
+      let page=pagination.page;
+      let size=pagination.size;
+      if(page*size<total){
+        action.payload.pagination.hasMore=true;
+      }else{
+        action.payload.pagination.hasMore=false;
+      }
+      return { ...state, ...action.payload };
+    },
+    getfinds(state, action) {
+      return { ...state, ...action.payload };
+    },
     // 基本使用
     getUser(state, action) {
       return { ...state, ...action.payload };

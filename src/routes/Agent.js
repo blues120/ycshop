@@ -37,8 +37,8 @@ export default class Agent extends Component {
         const {history,dispatch,userData}=this.props;
         let hasMore=userData.pagination.hasMore;
         let agent=userData.agent;
-        let agentList=userData.agentList;
-        // 传入navbBar参数
+      let agentList=userData.agentList;
+      // 传入navbBar参数
         const navBarProps = {
             leftVisible:true,
             leftFunc(){
@@ -61,7 +61,7 @@ export default class Agent extends Component {
                         <div className={styles.info}>
                             <div className={styles.circle}>
                                 <div className={styles.content}>
-                                    <span>{agent.area_gold}</span>
+                                    <span>{parseFloat(agent.area_gold).toFixed(2)}</span>
                                     <span>区域奖励</span>
                                 </div>
                             </div>
@@ -84,9 +84,10 @@ export default class Agent extends Component {
                                     agentList.map((i,index)=>{
                                         return(
                                             <div key={index} className={styles.cardItem}>
-                                                <p><span>编号： </span><span>{i.orderId}</span></p>
-                                                <p><span>金额：  </span><span>{i.gold}</span></p>
+                                                <p><span>编号： </span><span>{i.record_type===2?' ':i.orderNumber}</span></p>
+                                                <p><span>金额：  </span><span>{Math.round(parseFloat((i.gold)*100))/100}</span></p>
                                                 <p><span>时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                                <p><span>类型： </span><span>{i.record_type===2?'每天结算代理奖':'获得代理奖励 '}</span></p>
                                             </div>
                                         )
                                     })

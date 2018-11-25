@@ -27,9 +27,7 @@ export default class Review extends Component {
         location.search=location.search.replace("?","");
         const parsed = queryString.parse(location.search);
         if(parsed.index){
-          console.log(parsed.index,'@@@');
           const Data=await fetch.xiuGai(parsed.index);
-          console.log(Data,'cccccccccc');
           let Message=Data.resource.message?Data.resource.message:'';
           // let headImg=Data.resource.headImg?Data.resource.headImg:'';
           this.message.state.value=Message;
@@ -41,7 +39,6 @@ export default class Review extends Component {
 
             });
           })
-          console.log(newArr,'aaaaaaa');
           this.setState({files:newArr});
 
           // this.setState({Message,headImg})
@@ -77,7 +74,6 @@ export default class Review extends Component {
         const value=await userFetch.uploadImg(formData)
         if(value.status){
             files[files.length-1].realUrl=value.url;
-          console.log('cwt',files);
           this.setState({files})
         }else{
             files.pop();
@@ -93,8 +89,6 @@ export default class Review extends Component {
       location.search=location.search.replace("?","");
       const parsed = queryString.parse(location.search);
       if(parsed.index){
-        console.log(this.refs,'cccc@!');
-        console.log(this.message.state.value,'@!!!!!!!!!!!!!!!!!!');
         let imgs=[];
         if(files.length>0){
           files.map(i=>{
@@ -103,7 +97,6 @@ export default class Review extends Component {
         }
         const info=await fetch.XIUGAI({id:parsed.index,message:this.message.state.value,imgs:imgs});
       info.status?Toast.success(info.message,2,()=>history.goBack()):Toast.offline(info.message,2);
-        console.log(info,'xxxx');
         return;
       }
 
@@ -150,9 +143,7 @@ export default class Review extends Component {
         const {history,dispatch,shopData}=this.props;
         let goodDetail=shopData.goodDetail;
         const {disabled,files,Message,headImg} =this.state;
-      console.log(this.state.Message,'11111111111111111111111111111');
 
-      console.log(Message,'wwwwwwww');
       // 传入navbBar参数
         const navBarProps = {
             leftVisible:true,

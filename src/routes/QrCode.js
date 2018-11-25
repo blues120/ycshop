@@ -25,6 +25,8 @@ export default class QrCode extends Component {
         copy(url);
         Toast.success("复制成功!如未成功请手动复制!",2);
     }
+    componentDidMount(){
+    }
     render() {
         const {history,dispatch,userData}=this.props;
         const userInfo=userData.user;
@@ -47,11 +49,11 @@ export default class QrCode extends Component {
                     <div className={styles.codeBox}>
                         <p className={styles.titleA}>感谢加入</p>
                         <p className={styles.titleB}>扫码下方二维码，享受更多优惠</p>
-                        <QRCode className={styles.QRCode}  value={window.location.host+"/reg?parentUsername="+userInfo.username} />
+                        <QRCode className={styles.QRCode}  value={window.location.origin+"/reg?parentUsername="+userInfo.username} />
                     </div>
-                    <p className={styles.url}>{window.location.host+"/reg?parentUsername="+userInfo.username}</p>
+                    <p className={styles.url}>{window.location.origin+"/reg?parentUsername="+userInfo.username}</p>
                     <div className={styles.btnBox}>
-                        <Button type="primary" size='small' onClick={()=>this.copyCode(window.location.host+"/reg?parentUsername="+userInfo.username)} >复制推广链接</Button>
+                        <Button type="primary" size='small' onClick={()=>this.copyCode(window.location.origin+"/reg?parentUsername="+userInfo.username)} >复制推广链接</Button>
                     </div>
                 </div>
             </div>

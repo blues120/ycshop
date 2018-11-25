@@ -39,13 +39,12 @@ export default class PayOrder extends Component {
     }
 
     // 计算金额
-    componentDidMount(){
+    componentwillMount(){
         const {shopData}=this.props;
         const orderInfo=shopData.orderInfo;
         const systemConfig=shopData.systemConfig;
         const userInfo=shopData.user;
         let minPrice=0;
-      console.log(orderInfo,'xxxxxxxxxxx');
         if(userInfo._id&&systemConfig.ysjfDKRate&&orderInfo.payable){
           if(orderInfo.activeState===1){
             this.setState({minPrice:orderInfo.payable})
@@ -65,10 +64,8 @@ export default class PayOrder extends Component {
       const systemConfig = shopData.systemConfig;
       const userInfo = shopData.user;
       let minPrice = 0;
-      console.log("@@@==111==",orderInfo);
       if (userInfo._id && systemConfig.ysjfDKRate && orderInfo.payable) {
         if (orderInfo.activeState == 1) {
-          console.log("@@@====",orderInfo.payable);
           minPrice = orderInfo.payable;
         } else {
           let youhui = orderInfo.originalIntegral * systemConfig.ysjfDKRate + orderInfo.availableIntegral;
@@ -146,9 +143,13 @@ export default class PayOrder extends Component {
     render() {
         const {history,dispatch,shopData}=this.props;
         const orderInfo=shopData.orderInfo;
-      console.log(orderInfo,'@@@@@cwt');
+      console.log(orderInfo,"???/噢哟CWT");
       const systemConfig=shopData.systemConfig;
-        const userInfo=shopData.user;
+      let list=orderInfo.goodsList?orderInfo.goodsList[0]:'';
+      let guigeText=list.guigeText?list.guigeText:'';
+
+      const {propertyOriginalPrice,propertyPrice}=guigeText;
+      const userInfo=shopData.user;
         const {type,disabled,minPrice}=this.state;
         // 传入navbBar参数
         const navBarProps = {
@@ -179,8 +180,10 @@ export default class PayOrder extends Component {
                     <div className={styles.topInfo}>
                         <p className={styles.orderNumber}>订单号：{orderInfo.orderNumber}</p>
 
-                        <span className={styles.price}>¥{minPrice==0?0:minPrice.toFixed(2)}</span>
-                        <span className={styles.oldPrice}>¥{orderInfo.payable?Number(orderInfo.payable).toFixed(2):0}</span>
+                        {/*<span className={styles.price}>¥{orderInfo.payable?Number(orderInfo.payable).toFixed(2):0}</span>*/}
+                        {/*<span className={styles.oldPrice}>¥{orderInfo.payable?Number(orderInfo.payable).toFixed(2):0}</span>*/}
+                      <span className={styles.price}>¥{propertyPrice}</span>
+                      <span className={styles.oldPrice}>¥{propertyOriginalPrice}</span>
                         <p className={styles.jifen}><span>可用积分可抵扣：</span> <span>－ ¥{Number(orderInfo.activeState==0&&orderInfo.availableIntegral?orderInfo.availableIntegral:0).toFixed(2)}</span></p>
                         <p className={styles.jifen}><span>原始积分可抵扣：</span> <span>－ ¥{(Number(orderInfo.activeState==0&&orderInfo.originalIntegral?orderInfo.originalIntegral:0)*systemConfig.ysjfDKRate).toFixed(2)}</span></p>
                     </div>

@@ -38,8 +38,9 @@ export default class YuEList extends Component {
 
     render() {
         const {history,dispatch,userData}=this.props;
-        let yuEList=userData.yuEList;
-        const {type}=this.state;
+      let yuEList=userData.yuEList;
+      // console.log(yuEList,'余额');
+      const {type}=this.state;
         // 列表是否有下一页
         let hasMore=userData.pagination.hasMore;
 
@@ -85,7 +86,7 @@ export default class YuEList extends Component {
                                         return(
                                             <div key={index} className={styles.cardItem}>
                                                 <p><span>变动方式： </span><span>余额支付购买商品</span></p>
-                                                <p><span>订单编号： </span><span>{i.orderId}</span></p>
+                                                <p style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
                                                 <p><span>支付金额：  </span><span>-{i.gold}</span></p>
                                                 <p><span>支付时间： </span><span>{timetrans(i.createTime)}</span></p>
                                             </div>
@@ -93,28 +94,46 @@ export default class YuEList extends Component {
                                     }else if(i.type===3){
                                       return(
                                         <div key={index} className={styles.cardItem}>
-                                          <p><span>变动方式： </span><span>推广收益定期结算获得</span></p>
-                                          <p><span>订单编号： </span><span>{i.orderId}</span></p>
-                                          <p><span>支付金额：  </span><span>-{i.gold}</span></p>
-                                          <p><span>支付时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                          <p><span>变动方式： </span><span>推广收益结算到余额</span></p>
+                                          <p  style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
+                                          <p><span>结算金额：  </span><span>+{i.gold}</span></p>
+                                          <p><span>结算时间： </span><span>{timetrans(i.createTime)}</span></p>
                                         </div>
                                       )
                                     }else if(i.type===4){
                                       return(
                                         <div key={index} className={styles.cardItem}>
                                           <p><span>变动方式： </span><span>可用积分兑换成余额</span></p>
-                                          <p><span>订单编号： </span><span>{i.orderId}</span></p>
-                                          <p><span>支付金额：  </span><span>-{i.gold}</span></p>
-                                          <p><span>支付时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                          <p  style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
+                                          <p><span>兑换金额：  </span><span>+{i.gold}</span></p>
+                                          <p><span>兑换时间： </span><span>{timetrans(i.createTime)}</span></p>
                                         </div>
                                       )
                                     }else if(i.type===5){
                                       return(
                                         <div key={index} className={styles.cardItem}>
-                                          <p><span>变动方式： </span><span>结算推广收益</span></p>
-                                          <p><span>订单编号： </span><span>{i.orderId}</span></p>
-                                          <p><span>支付金额：  </span><span>-{i.gold}</span></p>
-                                          <p><span>支付时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                          <p><span>变动方式： </span><span>淘宝推广收益定期结算到余额</span></p>
+                                          <p  style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
+                                          <p><span>结算金额：  </span><span>+{i.gold}</span></p>
+                                          <p><span>结算时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                        </div>
+                                      )
+                                    }else if(i.type===6){
+                                      return(
+                                        <div key={index} className={styles.cardItem}>
+                                          <p><span>变动方式： </span><span>代理每天的收益结算到余额</span></p>
+                                          <p  style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
+                                          <p><span>结算金额：  </span><span>+{i.gold}</span></p>
+                                          <p><span>结算时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                        </div>
+                                      )
+                                    }else if(i.type===7){
+                                      return(
+                                        <div key={index} className={styles.cardItem}>
+                                          <p><span>变动方式： </span><span>用户充值余额</span></p>
+                                          <p  style={{display:i.orderNumber?'flex':'none'}}><span>订单编号： </span><span>{i.orderNumber}</span></p>
+                                          <p><span>充值金额：  </span><span>+{i.gold}</span></p>
+                                          <p><span>充值时间： </span><span>{timetrans(i.createTime)}</span></p>
                                         </div>
                                       )
                                     }
@@ -124,7 +143,6 @@ export default class YuEList extends Component {
 
 
                         </div>
-
                     </InfiniteScroll>
                 </div>
             </div>

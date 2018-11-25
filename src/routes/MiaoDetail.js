@@ -60,15 +60,12 @@ export default class GrouponDetail extends Component {
     }else{
       Toast.fail(value.message,2);
     }
-    console.log(value,'@');
 
   }
  async componentDidMount(){
     const {dispatch,location}=this.props;
     const parse=queryString.parse(location.search.replace('?',''));
-   console.log(parse.index);
    const data=await fetch.miaoSFunc(parse.index);
-   console.log(data,APIHost+data.resource.multiple[0],'!!!!!!!');
    if(data.status && data.resource._id){   //请求生成
      var currentTime = new Date().getTime();
      var startTime = data.resource.eckill.startTime;

@@ -29,7 +29,7 @@ export default class PayQrCode extends Component {
     render() {
         const {history,dispatch,userData}=this.props;
         let userInfo = userData.user;
-        // 传入navbBar参数
+      // 传入navbBar参数
         const navBarProps = {
             leftVisible:true,
             leftFunc(){
@@ -50,11 +50,11 @@ export default class PayQrCode extends Component {
                         <div className={styles.codeBox}>
                             <p className={styles.titleA}> 收款二维码 </p> 
                             <p className={styles.titleB}>扫码下方二维码，立即向我支付</p>
-                            <QRCode className={styles.QRCode}  value={window.location.host+'/transfer?_id='+userInfo._id} />
+                            <QRCode className={styles.QRCode}  value={window.location.host+'/transfer?_id='+userInfo.merchantId} />
                         </div>
-                        <p className={styles.url}>{window.location.host+'/transfer?_id='+userInfo._id}</p>
+                        <p className={styles.url}>{window.location.host+'/transfer?_id='+userInfo.merchantId}</p>
                         <div className={styles.btnBox}>
-                            <Button type="primary" size='small' onClick={()=>this.copyCode(window.location.host+'/transfer?_id='+userInfo._id)} >复制支付链接</Button>
+                            <Button type="primary" size='small' onClick={()=>this.copyCode(window.location.host+'/transfer?_id='+userInfo.merchantId)} >复制支付链接</Button>
                         </div>
                     </div>
                     :

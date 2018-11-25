@@ -3,10 +3,12 @@ var AES = require("crypto-js/aes");
 var HmacMD5 = require("crypto-js/hmac-md5");
 var store = require('store');
 var CryptoJS = require("crypto-js");
-export const APIHost ='http://47.92.88.214:9011';  //服务器
+export const APIHost ='http://122.112.244.103:9011';  //服务器
 // export const APIHost ='http://10.10.10.103:1235';
 // export const APIHost ='http://10.10.10.145:5000';
-// export const APIHost='http://192.168.2.100:5000';
+// export const APIHost='http://192.168.2.250:5000';
+// export const APIHost='http://47.92.88.214:9011';  // 214
+// export const APIHost ='http://192.168.1.100:5000';  //  本地
 
 var defaultParams = {
   mode: 'cors',
@@ -16,8 +18,6 @@ var defaultParams = {
     'Content-Type': 'application/json; charset=utf-8'
   }
 };
-
-
 /**
  * HTTP GET
  * @param  {string} url
@@ -172,6 +172,7 @@ export function login(username,password){
 //登出
 export function loginOut(){
   store.remove("user");
+  store.remove('pw');
   console.log("登出成功")
 }
 //存ID

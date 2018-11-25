@@ -17,27 +17,36 @@ export default class MyAddr extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            type:0
+            type:0,
+          index:''
         };
     }
     //
     componentWillMount(){
         const {location}=this.props;
-        location.search=location.search.replace("?","")
+        location.search=location.search.replace("?","");
         const parsed = queryString.parse(location.search);
         if(parsed.type){
             this.setState({
                 type:1
             })
-        }
+        }if(parsed.index){
+        this.setState({
+          index:1
+        })
+      }
     } 
     
     // 选择地址
     selectAddr(_id){
-        const {type}=this.state;
+        const {type,index}=this.state;
         const {dispatch}=this.props;
         if(type===1){
-            dispatch(routerRedux.push('/confirmorder?addrid='+_id))
+          if(index===1){
+            dispatch(routerRedux.push('/cop?addrid='+_id));
+            return;
+          }
+            dispatch(routerRedux.push('/confirmorder?addrid='+_id));
         }
     }
     // 删除地址

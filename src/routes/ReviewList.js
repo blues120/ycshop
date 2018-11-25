@@ -38,7 +38,6 @@ export default class ReviewList extends Component {
     componentDidMount(){
       const user=JSON.parse(localStorage.getItem('user')).username;
       this.setState({userName:user})
-      console.log(user,'ccccc');
     }
     //加载更多的方法,写法固定,只需替换变量名
     loadFunc(e){
@@ -67,7 +66,6 @@ export default class ReviewList extends Component {
     render() {
         const {history,dispatch,shopData}=this.props;
         let reviewList=shopData.reviewList;
-      console.log(reviewList,'@!@!');
       // 列表是否有下一页
         let hasMore=shopData.pagination.hasMore;
         // 传入navbBar参数

@@ -55,6 +55,7 @@ export default class ChgPwd extends Component {
     }
     // 
     async chgPwd(){
+      let reg=/^\d+$/;
         this.chgDisabled(true);
         const {dispatch} =this.props;
         let mobile=this.mobile.state.value;
@@ -65,6 +66,7 @@ export default class ChgPwd extends Component {
         if(VerificationCode===''){Toast.offline('请填写验证码',2);this.chgDisabled(false);return};
         if(password===''){Toast.offline('请填写登录密码',2);this.chgDisabled(false);return};
         if(tranpwd===''){Toast.offline('请填写支付密码',2);this.chgDisabled(false);return};
+      if(!reg.test(tranpwd)){Toast.offline('请填写数字',2);this.chgDisabled(false);return};
         let sql={mobile,VerificationCode,password,tranpwd};
         const value=await external.chgPwd(sql);
         if(value.status){

@@ -36,7 +36,7 @@ export default class OriginalList extends Component {
     render() {
         const {history,dispatch,userData}=this.props;
         let originalList=userData.originalList;
-        // 列表是否有下一页
+      // 列表是否有下一页
         let hasMore=userData.pagination.hasMore;
 
         // 传入navbBar参数
@@ -46,7 +46,7 @@ export default class OriginalList extends Component {
                 dispatch(routerRedux.goBack())
             },
             titleName:'原始积分记录',
-        }
+        };
 
 
         return (
@@ -70,16 +70,14 @@ export default class OriginalList extends Component {
                                 originalList.map((i,index)=>{
                                     return(
                                         <div key={index} className={styles.cardItem}>
-                                            <p><span>{i.type===1?'获得':'扣除'}金额： </span><span>{i.gold}</span></p>
-                                            <p><span>{i.type===1?'获得':'扣除'}方式： </span><span>{i.type===1?'购物返还':i.type===2?'每日释放':i.type===3?'购物支付':i.type===4?'线下支付活动':(i.type===5?'线下分销获得':'淘宝返积分')}</span></p>
-                                            <p><span>{i.type===1?'获得':'扣除'}时间： </span><span>{timetrans(i.createTime)}</span></p>
+                                            <p><span>{i.type===3||i.type===8?'扣除':'获得'}积分： </span><span>{parseFloat(i.gold).toFixed(2)}</span></p>
+                                            <p><span>{i.type===3||i.type===8?'扣除':'获得'}方式： </span><span>{i.type===1?'购物返还':i.type===2?'每日释放':i.type===3?'购物支付':i.type===4?'线下支付':(i.type===5?'线下分销获得':i.type===6?'淘宝返积分':i.type===7?'线下购物代理获得':'兑换积分商品')}</span></p>
+                                            <p><span>{i.type===3||i.type===8?'扣除':'获得'}时间： </span><span>{timetrans(i.createTime)}</span></p>
                                         </div>
                                     )
                                 })
                             }
-
                         </div>
-
                     </InfiniteScroll>
                 </div>
             </div>

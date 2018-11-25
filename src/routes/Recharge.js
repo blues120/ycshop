@@ -140,7 +140,7 @@ export default class Recharge extends Component {
         if(way===1){
             value= await fetch.rechange({tranpwd,total_fee});
         }else if(way===2){
-            this.chgDisabled(false)
+            this.chgDisabled(false);
             Toast.offline('微信充值暂未开放!',2);
             return;
         }

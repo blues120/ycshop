@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+    import React, {Component} from 'react';
 import {connect} from 'dva';
 import {routerRedux} from 'dva/router';
 import {loggedIn, loginOut, APIHost} from '../utils/fetch';
@@ -29,6 +29,9 @@ import mineIcon19 from '../assets/icon/mineIcon19.png';
 import mineIcon20 from '../assets/icon/mineIcon20.png';
 import star_gray from '../assets/icon/star_gray.png';
 import person from '../assets/icon/person.jpg';
+function AndroidToJs(val){
+  alert(val,'outline');
+};
 @connect(state => ({userData: state.user}))
 export default class Mine extends Component {
 
@@ -43,26 +46,33 @@ export default class Mine extends Component {
     }
     async componentDidMount(){
       const data=await fetch.paihangFunc();
-      console.log(data);
-      this.setState({Img:data.resource.dayOne[0]?data.resource.dayOne[0].headerImg:''})
+      this.setState({Img:data.resource.dayOne[0]?data.resource.dayOne[0].headerImg:''});
       this.setState(({RightImg:data.resource.monthOne[0]?data.resource.monthOne[0].headerImg:''}))
     }
     // 退出选项
     getOut(){
+      localStorage.setItem('pw','');
         const {dispatch}=this.props;
         loginOut();
         Toast.success('退出成功,3s后进入登录界面',3,()=>{
             dispatch(routerRedux.push('/login'))
         })
     }
+  // handleSao(){
+  //   window.android.SaoYiSao();
+  // };
+  // AndroidToJs(val){
+  //   alert(val,'inner');
+  // };
     render() {
         const {history,dispatch,userData}=this.props;
         const userInfo=userData.user;
-      console.log(userInfo);
-      const yugu=userInfo.yugu_gold?userInfo.yugu_gold:0.00;
-      console.log(userInfo.yugu_area_gold,'wc');
+      let yugu=userInfo.yugu_gold?userInfo.yugu_gold:0.00;//2
+     let extensionGold= userInfo.extensionGold?userInfo.extensionGold:0.00;  //1
+      let  yugu_ysJifen=userInfo. yugu_ysJifen?userInfo. yugu_ysJifen:0.00;
+      const zsy=yugu+extensionGold+yugu_ysJifen;
       const dlyugu=userInfo.yugu_area_gold!=='undefined'?userInfo.yugu_area_gold:0.00;
-      console.log(dlyugu,'ccccc');
+      // console.log(dlyugu,'代理预估收益');
       // 传入tabBar参数
         const tabBarProps = {
             selectedTabBar: this.state.selectedTabBar,
@@ -84,7 +94,7 @@ export default class Mine extends Component {
             rightTap(){
                 dispatch(routerRedux.push('/recharge?type=2'))
             },
-        }
+        };
         return (
             <div className={styles.rootBox}>
 
@@ -109,8 +119,8 @@ export default class Mine extends Component {
                                 <span>原始积分</span>
                             </div>
                           <div>
-                            <span>{yugu}</span>
-                            <span>用户预估收益</span>
+                            <span>{zsy?Number(zsy).toFixed(2):0}</span>
+                            <span>推广总收益</span>
                           </div>
                         </div>
                         {/* 头像信息 */}
@@ -188,6 +198,14 @@ export default class Mine extends Component {
                                     <div><img src={mineIcon16} alt=""/></div>
                                     <span>付款记录</span>
                                 </div>
+                              <div className={styles.menuItem} onClick={()=>history.push('/tuisy')} >
+                                <div><img src={require('.././assets/images/tuisy.png')} alt=""/></div>
+                                <span>推广收益</span>
+                              </div>
+                              {/*<div className={styles.menuItem} onClick={this.handleSao.bind(this)} >*/}
+                                {/*<div><img src={require('.././assets/images/sys.png')} alt=""/></div>*/}
+                                {/*<span>扫一扫</span>*/}
+                              {/*</div>*/}
                                 {/* <div className={styles.menuItem}>
                                     <div><img src={mineIcon03} alt=""/></div>
                                     <span>我的客服</span>
@@ -252,8 +270,8 @@ export default class Mine extends Component {
                                         <span>申请代理商</span>
                                     </div>
                                 }
-                              <div style={{display:dlyugu?'flex':'none'}}  className={styles.menuItem} onClick={()=>history.push('/applyagent')}>
-                                <div>{dlyugu}</div>
+                              <div style={{display:dlyugu?'flex':'none'}}  className={styles.menuItem}>
+                                <div>{parseFloat(dlyugu).toFixed(2)}</div>
                                 <span>代理预估收益</span>
                               </div>
                             </div>
@@ -271,11 +289,11 @@ export default class Mine extends Component {
                             {/* 左排行 */}
                             <div className={styles.leftRank}>
                                 {/* 排行名称 */}
-                                <p>今日佣金排行榜</p>
+                                <p>当日佣金排行榜</p>
                                 {/* 排行子项 */}
                                 <div className={styles.rankItem}>
                                     <span>1.</span>
-                                    <div><img src={this.state.RightImg===''?person:APIHost+this.state.Img} alt=""/></div>
+                                    <div><img src={this.state.Img===''?person:APIHost+this.state.Img} alt=""/></div>
                                 </div>
                                 {/* 排行子项 */}
                                 {/*<div className={styles.rankItem}>*/}
@@ -286,7 +304,7 @@ export default class Mine extends Component {
                             {/* 右排行 */}
                             <div className={styles.rightRank}>
                                 {/* 排行名称 */}
-                                <p>今日全国排行榜</p>
+                                <p>当月佣金排行榜</p>
                                 {/* 排行子项 */}
                                 <div className={styles.rankItem}>
                                     <span>1.</span>

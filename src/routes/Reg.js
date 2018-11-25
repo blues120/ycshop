@@ -57,7 +57,6 @@ export default class Reg extends Component {
    async componentDidMount(){
       const data=await external.xieyi();
       this.setState({userArg:data.resource.userAgreement})
-     console.log(data.resource,'xxxxxxxxxxxxx');
    }
     // 按钮的disabled属性更改
     chgDisabled(disabled){
@@ -108,7 +107,6 @@ export default class Reg extends Component {
       if(activeItem===1){
             this.checkCode();
         }else if(activeItem===2){
-        console.log(this.picker,'gg');
         this.goReg();
         }else if(activeItem===3){
             dispatch(routerRedux.push('/login'))
@@ -133,19 +131,22 @@ export default class Reg extends Component {
     }
     // 注册
     async goReg(){
+      let reg=/^\d+$/;
       const {areaList} =this.state;
       this.chgDisabled(true);
         let mobile=this.mobile.state.value;
         let VerificationCode=this.VerificationCode.state.value;
         let name=this.name.state.value;
         let password=this.password.state.value;
-        let secondpwd=this.secondpwd.state.value;
+        let tranpwd=this.secondpwd.state.value;
         let parentUsername=this.parentUsername.state.value;
-        let username=mobile;
+      console.log(tranpwd);
+      let username=mobile;
         if(name===''){Toast.offline('请输入您的真实姓名',2);this.chgDisabled(false);return;}
         if(password===''){Toast.offline('请输入您的登录密码',2);this.chgDisabled(false);return;}
-        if(secondpwd===''){Toast.offline('请输入您的支付密码',2);this.chgDisabled(false);return;}
-        let sql={mobile,VerificationCode,name,username,password,secondpwd};
+        if(tranpwd===''){Toast.offline('请输入您的支付密码',2);this.chgDisabled(false);return;}
+      if(!reg.test(tranpwd)){Toast.offline('请输入数字',2);this.chgDisabled(false);return;}
+        let sql={mobile,VerificationCode,name,username,password,tranpwd};
         if(parentUsername.length!==0){
             sql.parentUsername=parentUsername;
         }
@@ -156,8 +157,7 @@ export default class Reg extends Component {
       }else{
         sql.province =areaList[0];
         sql.city=areaList[1];
-        console.log(sql.province,'xxx');
-        console.log(sql);
+
         if(areaList.length===3&&areaList[2]!==''){
           sql.area=areaList[2];
         }
@@ -241,7 +241,6 @@ export default class Reg extends Component {
     }
   }
     render() {
-      console.log(this.state.checked);
       const {history,dispatch}=this.props;
         const {activeItem,disabled,codeExtra,parentUsername,area,areaList,edit,isDefault}=this.state;
         // 传入navbBar参数
@@ -300,13 +299,13 @@ export default class Reg extends Component {
                           <p className={styles.inputTitle}>区域</p>
                           <Picker
                             value={areaList}
-                            extra=''
+                            extra={false}
                             data={options}
                             onOk={e => this.chgArea(e)}
                             onDismiss={e => this.chgArea(e)}
                             ref={el=>this.picker=el}
                           >
-                            <InputItem className='addrpicker' value={area} editable={false} type='text' placeholder=''/>
+                            <InputItem className='addrpicker' value={area} editable={false} type='text'  />
                           </Picker>
                         </List>
                       {/*ccc*/}

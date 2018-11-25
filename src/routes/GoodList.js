@@ -23,7 +23,7 @@ export default class GoodList extends Component {
 
     componentWillMount() {
         const {dispatch,location}=this.props;
-        location.search=location.search.replace("?","")
+        location.search=location.search.replace("?","");
         const parsed = queryString.parse(location.search);
         if(parsed.keyword){
             this.setState({
@@ -69,14 +69,12 @@ export default class GoodList extends Component {
 
     render() {
         const {history,dispatch,shopData}=this.props;
-      console.log(shopData,'xxx');
       // 列表是否有下一页
         let hasMore=shopData.pagination.hasMore;
 
-        console.log(hasMore);
         // 伪造的列表数据
         let goodList=shopData.goodList;
-        // 商品列表的参数
+      // 商品列表的参数
         const goodListProps = {
             goodData: goodList,
             tapItem(item){

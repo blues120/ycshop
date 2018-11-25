@@ -57,14 +57,12 @@ componentDidMount(){
   var tel = "18827768782";
   var reg = /^(\d{3})\d{4}(\d{4})$/;
   tel = tel.replace(reg, "$1****$2");
-  console.log(tel);
 }
     render() {
       var reg = /^(\d{3})\d{4}(\d{4})$/;
 
       const {history,dispatch,userData}=this.props;
         let teamList=userData.teamList;
-      console.log(teamList,'@@@!2');
       // 列表是否有下一页
         let hasMore=userData.pagination.hasMore;
         // 传入navbBar参数
@@ -100,7 +98,7 @@ componentDidMount(){
                                 return(
                                     <div key={index} className={styles.teamItem}>
                                         <div className={styles.headIcon}>
-                                            <img src={person} alt=""/>
+                                            <img src={i.headerImg?APIHost+i.headerImg:person} alt=""/>
                                         </div>
                                         <div className={styles.info}>
                                             <p className={styles.name}>{i.name}</p>

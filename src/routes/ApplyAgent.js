@@ -282,7 +282,6 @@ export default class ApplyAgent extends Component {
   async componentDidMount() {
     const data = await external.xieyi();
     this.setState({userArg: data.resource.agentAgreement})
-    console.log(data.resource, 'xxxxxxxxxxxxx');
   }
 
   render() {

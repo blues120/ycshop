@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Header from "../components/Header/Header";
+import Header from "../Common/Header/Header";
 import style from './styles/Message.less';
 import * as user from "../services/user";
 import {timetrans} from "../timetrans";

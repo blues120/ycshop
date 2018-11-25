@@ -115,7 +115,7 @@ export default class Cart extends Component {
     }
     // 计算价格
     getPrice(){
-        let {cartList}=this.state;
+      let {cartList}=this.state;
         let num=0;
         cartList.map((i,index)=>{
             if(i.selectType){
@@ -137,7 +137,7 @@ export default class Cart extends Component {
             if(i.selectType){
                 newArr.push(i)
             }
-        })
+        });
         const value=await fetch.saveOrder({storeGoods:newArr});
         if(value.status){
             Toast.success('提交成功!',2,()=>{
@@ -150,7 +150,7 @@ export default class Cart extends Component {
     render() {
         const {history,dispatch,shopData}=this.props;
         const {cartList,price}=this.state;
-        // 传入navbBar参数
+      // 传入navbBar参数
         const navBarProps = {
             leftVisible:true,
             leftFunc(){
@@ -170,7 +170,6 @@ export default class Cart extends Component {
                 <MyNavBar {...navBarProps}/>
                 {/*底部标签栏*/}
                 <MyTabBar {...tabBarProps}/>
-
                 <div className={styles.main}>
                     {/* 商品 */}
                     {

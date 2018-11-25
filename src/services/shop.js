@@ -92,13 +92,22 @@ export function saveOrder(params){
   return fetchs.creat_Token(fetchs.APIHost+'/order/temporary/store/goods',fetchs.getAuth('/order/temporary/store/goods'),JSON.stringify(params)).then(response => response.json())
   .then(json => { return json});
 }
-
-
+/*2*/
+export function cunSaveOrder(params){
+  return fetchs.creat_Token(fetchs.APIHost+'/integral/temporary/store/goods',fetchs.getAuth('/integral/temporary/store/goods'),JSON.stringify(params)).then(response => response.json())
+    .then(json => { return json});
+}
 // 获取暂存订单
 export function temporaryOrder(params){
   return fetchs.read_Token(fetchs.APIHost+'/order/temporary/store/info',fetchs.getAuth('/order/temporary/store/info')).then(response => response.json())
   .then(json => { return json});
 }
+/*cop*/
+export function coptemporaryOrder(params){
+  return fetchs.read_Token(fetchs.APIHost+'/integral/temporary/store/info',fetchs.getAuth('/integral/temporary/store/info')).then(response => response.json())
+    .then(json => { return json});
+}
+
 // 获取用户默认地址
 export function defaultAddr(params){
   return fetchs.read_Token(fetchs.APIHost+'/user/address/default',fetchs.getAuth('/user/address/default')).then(response => response.json())
@@ -111,6 +120,11 @@ export function defaultAddr(params){
 export function addOrder(params){
   return fetchs.creat_Token(fetchs.APIHost+'/order',fetchs.getAuth('/order'),JSON.stringify(params)).then(response => response.json())
   .then(json => { return json});
+}
+/*积分下单 cop*/
+export function copaddOrder(params){
+  return fetchs.creat_Token(fetchs.APIHost+'/integral/exchange/goods',fetchs.getAuth('/integral/exchange/goods'),JSON.stringify(params)).then(response => response.json())
+    .then(json => { return json});
 }
 
 // 获取用户默认地址

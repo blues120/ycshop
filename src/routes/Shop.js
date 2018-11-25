@@ -28,13 +28,11 @@ export default class Shop extends Component {
         if(parsed._id){
             this.setState({_id:parsed._id})
           const data=await fetch.getDp(parsed._id);
-          console.log(data,'@!!@---');
           this.setState({check:data.status})
         }
     }
    // async componentDidMount(){
    //    const data=await fetch.getDp();
-   //   console.log(data,'@');
    // }
     //加载更多的方法,写法固定,只需替换变量名
     loadFunc(e){
@@ -52,7 +50,6 @@ export default class Shop extends Component {
     }
   async handleCheckClick(){
       this.setState({check:!this.state.check});
-    console.log(this.state.check,'!');
     let status=null;
     if(!this.state.check){
       status=1;
@@ -61,14 +58,12 @@ export default class Shop extends Component {
     }
     const data=await fetch.postSp({state:status,shopId:this.state._id});
     Toast.success(data.message,1);
-    console.log(data,'!!!!!!@!');
   };
     render() {
         const {history,dispatch,shopData}=this.props;
 
         let shopInfo=shopData.shopInfo;
         let shopList=shopData.shopList;
-        console.log(shopInfo);
         // 列表是否有下一页
         let hasMore=shopData.pagination.hasMore;
         // 商品列表的参数

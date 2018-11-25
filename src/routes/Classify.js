@@ -8,7 +8,6 @@ import * as fetch from '../services/shop';
 import good01 from '../assets/images/good01.png';
 @connect(state => ({shopData: state.shop}))
 export default class Classify extends Component {
-
     // 构造函数
     constructor(props) {
         super(props);
@@ -16,7 +15,6 @@ export default class Classify extends Component {
             selectedIndex:0
         };
     }
-
     getDetail(selectedIndex){
         this.setState({
             selectedIndex
@@ -80,11 +78,6 @@ export default class Classify extends Component {
                                     :
                                     '' 
                                 }
-                                
-
-
-
-
                             </div>
                         </div>
                     </div>

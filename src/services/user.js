@@ -18,6 +18,22 @@ export function systemConfig(){
   return fetchs.read_Token(fetchs.APIHost+'/systemSet/list',fetchs.getAuth('/systemSet/list')).then(response => response.json())
   .then(json => { return json});
 }
+/*积分详情*/
+export function jifenDetail(params){
+  return fetchs.read_Token(fetchs.APIHost+'/integral/admin/goods/'+params._id).then(response => response.json())
+    .then(json => { return json});
+}
+/*积分商城列表*/
+export function jinFenLists(params){
+  if(!params.page){
+    params.page=1;
+  }
+  if(!params.size){
+    params.size=5;
+  }
+  return fetchs.read_Token(fetchs.APIHost+'/integral/goods/list/'+params.page+'/'+params.size,fetchs.getAuth('/integral/goods/list/'+params.page+'/'+params.size)).then(response => response.json())
+    .then(json => { return json});
+}
 
 // 上传图片
 export function uploadImg(params){
@@ -207,8 +223,21 @@ export function orderList(params){
   return fetchs.read_Token(fetchs.APIHost+'/order/list/user/state/'+params.state+'/'+params.page+'/'+params.size,fetchs.getAuth('/order/list/user/state/'+params.state+'/'+params.page+'/'+params.size)).then(response => response.json())
     .then(json => { return json});
 }
-
-
+/*公告获取*/
+export function gonggaoGet(params){
+  return fetchs.read_Token(fetchs.APIHost+'/systemSmg/list/'+params.page+'/'+params.size,fetchs.getAuth('/systemSmg/list/'+params.page+'/'+params.size)).then(response => response.json())
+    .then(json => { return json});
+}
+/*公告ID*/
+export function gonggaoGetID(params){
+  return fetchs.read_Token(fetchs.APIHost+'/systemSmg/'+params.id,fetchs.getAuth('/systemSmg/'+params.id)).then(response => response.json())
+    .then(json => { return json});
+}
+/*推广收益明细*/
+export function TuiSY(params){
+  return fetchs.read_Token(fetchs.APIHost+'/record/extensiongold/list/'+params.page+'/'+params.size,fetchs.getAuth('/record/extensiongold/list/'+params.page+'/'+params.size)).then(response => response.json())
+    .then(json => { return json});
+}
 // 完成订单
 export function updateOrder(params){
   let _id=params._id;
@@ -232,7 +261,11 @@ export function outlineAlipay(params){
   return fetchs.creat_Token(fetchs.APIHost+'/outline/alipay/payment',fetchs.getAuth('/outline/alipay/payment'),JSON.stringify(params)).then(response => response.json())
   .then(json => { return json});
 }
-
+/*余额支付*/
+export function outlineYueE(params){
+  return fetchs.creat_Token(fetchs.APIHost+'/outline/yue/payment',fetchs.getAuth('/outline/yue/payment'),JSON.stringify(params)).then(response => response.json())
+    .then(json => { return json});
+}
 // 线下支付记录
 export function transferList(params){
   return fetchs.read_Token(fetchs.APIHost+'/record/outline/list/'+params.page+'/'+params.size,fetchs.getAuth('/record/outline/list/'+params.page+'/'+params.size)).then(response => response.json())
@@ -280,6 +313,8 @@ export function yuEList(params){
   return fetchs.read_Token(fetchs.APIHost+'/exchange/yue/all/list/'+params.page+'/'+params.size,fetchs.getAuth('/exchange/yue/all/list/'+params.page+'/'+params.size)).then(response => response.json())
   .then(json => { return json});
 }
+/*taobao*/
+
 
 
 export function jieSuan(params){
@@ -297,9 +332,18 @@ export function getznx(params){
 
 /*淘宝*/
 export function taoBao(params){
-  let {topcate,subcate}=params;
-  return fetchs.creat_Token(fetchs.APIHost+'/taobao/product/list/'+params.page+'/'+params.size,fetchs.getAuth('/taobao/product/list/'+params.page+'/'+params.size),JSON.stringify({topcate,subcate})).then(response => response.json())
-    .then(json => { return json});
+  let {topcate,subcate,keyword}=params;
+  if(!params.subcate&&params.topcate){
+    return fetchs.creat_Token(fetchs.APIHost+'/taobao/product/list/'+params.page+'/'+params.size,fetchs.getAuth('/taobao/product/list/'+params.page+'/'+params.size),JSON.stringify({topcate})).then(response => response.json())
+      .then(json => { return json});
+  }else if(params.keyword){
+    return fetchs.create(fetchs.APIHost+'/taobao/product/search/'+params.page+'/'+params.size,JSON.stringify({keyword})).then(response => response.json())
+      .then(json => { return json});
+  }else{
+    return fetchs.creat_Token(fetchs.APIHost+'/taobao/product/list/'+params.page+'/'+params.size,fetchs.getAuth('/taobao/product/list/'+params.page+'/'+params.size),JSON.stringify({topcate,subcate})).then(response => response.json())
+      .then(json => {return json});
+  }
+
 }
 /*ID*/
 export function taoBID(params){

@@ -420,19 +420,61 @@ function RouterConfig({ history,app }) {
     ],
     component: () => import('./routes/MessageDetail'),
   });
-  const Record = dynamic({
-    app,
-    models: () => [
-      import('./models/shop'),
-    ],
-    component: () => import('./routes/Record/Record'),
-  });
+  // const Record = dynamic({
+  //   app,
+  //   models: () => [
+  //     import('./models/shop'),
+  //   ],
+  //   component: () => import('./routes/Record/Record'),
+  // });
   const NeverUp = dynamic({
     app,
     models: () => [
       import('./models/shop'),
     ],
     component: () => import('./routes/Record/NeverUp'),
+  });
+  const Notice = dynamic({
+    app,
+    models: () => [
+      import('./models/shop'),
+    ],
+    component: () => import('./routes/Notice/Notice'),
+  });
+  const NoticeDetail = dynamic({
+    app,
+    models: () => [
+      import('./models/shop'),
+    ],
+    component: () => import('./routes/NoticeDetail/NoticeDetail'),
+  });
+  const TuiSY = dynamic({
+    app,
+    models: () => [
+      import('./models/user'),
+    ],
+    component: () => import('./routes/TuiSY/TuiSY'),
+  });
+  const TaoBao = dynamic({
+    app,
+    models: () => [
+      import('./models/user'),
+    ],
+    component: () => import('./routes/TaoBao/TaoBao'),
+  });
+  const JifenDetail = dynamic({
+    app,
+    models: () => [
+      import('./models/shop'),
+    ],
+    component: () => import('./routes/JifenDetail'),
+  });
+  const Cop = dynamic({
+    app,
+    models: () => [
+      import('./models/shop'),
+    ],
+    component: () => import('./routes/Cop'),
   });
   // MyInfoEdit
   return (
@@ -499,8 +541,13 @@ function RouterConfig({ history,app }) {
         <Route path="/message" exact component={Message} />
         <Route path="/messagedetail" exact component={MessageDetail} />
         <Route path="/miaodetail" exact component={MiaoDetail} />
-        <Route path="/record" exact component={Record} />
         <Route path="/neverup" exact component={NeverUp} />
+        <Route path="/notice" exact component={Notice} />
+        <Route path="/noticedetail" exact component={NoticeDetail} />
+        <Route path="/tuisy" exact component={TuiSY} />
+        <Route path="/taobao" exact component={TaoBao} />
+        <Route path="/jifendetail" exact component={JifenDetail} />
+        <Route path="/cop" exact component={Cop} />
       </Switch>
     </Router>
   );

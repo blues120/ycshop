@@ -8,7 +8,8 @@ import MyTabBar from "../components/TabBar";
 import MyNavBar from "../components/MyNavBar";
 import * as fetch from '../services/shop';
 import good01 from '../assets/images/good01.png';
-
+import InfiniteScroll from "react-infinite-scroller";
+import DetailItem from './DetailItem';
 @connect(state => ({shopData: state.shop}))
 export default class Findings extends Component {
 
@@ -23,22 +24,41 @@ export default class Findings extends Component {
   // async componentDidMount() {
   //     // const data=await
   // }
-
+  loadFunc(e){
+    const {dispatch,shopData}=this.props;
+    let page=shopData.pagination.page+1;
+    dispatch({
+      type:'shop/findings',
+      payload:{
+        page,
+        size:10
+      }
+    })
+  }
   render() {
-    const {history, dispatch} = this.props;
+    const {history, dispatch,shopData} = this.props;
+    let findsData=shopData.findsData;
+    let hasMore=shopData.pagination.hasMore;
     // 传入navbBar参数
     const navBarProps = {
       leftVisible: true,
       leftFunc() {
         dispatch(routerRedux.goBack())
       },
-      titleName: "发现",
-    }
+      titleName: "积分商城",
+    };
     // 传入tabBar参数
     const tabBarProps = {
       selectedTabBar: this.state.selectedTabBar,
       history
     }
+
+    const goodListProps = {
+      goodData: findsData,
+      tapItem(item){
+        dispatch(routerRedux.push("/jifendetail?_id="+item._id))
+      }
+    };
 
     return (
       <div className={styles.rootBox}>
@@ -49,35 +69,16 @@ export default class Findings extends Component {
         <MyTabBar {...tabBarProps}/>
 
         <div className={styles.main}>
-          <div className={styles.topTab}>
-            <span className={styles.active}>淘宝精选</span>
-            <span>京东精选</span>
-          </div>
           {/* 商品列表 */}
-          <div className={styles.list}>
-            {/* 商品 */}
-            <div className={styles.goodItem}>
-              <div className={styles.imgBox}>
-                <img src={good01} alt=""/>
-              </div>
-              <div className={styles.info}>
-                <p className={styles.name}>杠杠滴战衣服</p>
-                <p className={styles.other}>当前返利<span>¥6.66</span></p>
-                <p className={styles.prcie}>¥<span>999.99</span></p>
-              </div>
-            </div>
-            {/* 商品 */}
-            <div className={styles.goodItem}>
-              <div className={styles.imgBox}>
-                <img src={good01} alt=""/>
-              </div>
-              <div className={styles.info}>
-                <p className={styles.name}>杠杠滴战衣服</p>
-                <p className={styles.other}>当前返利<span>¥6.66</span></p>
-                <p className={styles.prcie}>¥<span>999.99</span></p>
-              </div>
-            </div>
-          </div>
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={(e)=>this.loadFunc(e)}
+            hasMore={hasMore}
+            threshold={100}
+            loader={<div className="loader" style={{fontSize:".28rem",lineHeight:".36rem",textAlign:"center",marginBottom:".3rem"}} key={0}>加载中...</div>}
+          >
+            <DetailItem {...goodListProps} />
+          </InfiniteScroll>
 
         </div>
       </div>

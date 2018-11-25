@@ -28,7 +28,7 @@ export default class TuiSY extends Component{
     const {history,dispatch,userData}=this.props;
     let hasMore=userData.pagination.hasMore;
     let tuisyList=userData.tuisyList;
-    console.log(tuisyList,'屎');
+    console.log(tuisyList,'1111');
     return (
       <div className={styles.rootBox} style={{marginTop:'1rem'}}>
         <Header title='推广收益' image={require('../../assets/images/jiantou.png')}/>

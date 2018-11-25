@@ -28,7 +28,8 @@ export default class RechargeT extends Component {
       type:1,
       disabled:false,
       way:1,
-      bankCard:{}
+      bankCard:{},
+      flag:true
     };
   }
   componentWillMount(){
@@ -54,7 +55,6 @@ export default class RechargeT extends Component {
   // 弹窗选择银行卡
   showActionSheet = () => {
     const {dispatch,userData}=this.props;
-    console.log(userData,'!@!@@!@!');
     const cardList=userData.cardList;
     let BUTTONS = ['添加银行卡', '取消'];
     let cardArr=[];
@@ -88,48 +88,59 @@ export default class RechargeT extends Component {
 
   // 确认提交
   async goSubmit(){
-    console.log(this.state.bankCard,'cccccccccccc');
-    this.chgDisabled(true);
-    const {history,dispatch,userData}=this.props;
-    const userInfo=userData.user;
-    console.log(userInfo);
-    const {type,way,bankCard}=this.state;
-    let value;
-    let money=this.money.state.value;
-    const data=fetch.jieSuan({waitGold:this.money.state.value,bankCardId:this.state.bankCard._id}).then(function (res) {
+    this.setState({flag:false});
+    if(this.state.flag){
+      this.chgDisabled(true);
+      const {history,dispatch,userData}=this.props;
+      const userInfo=userData.user;
+      console.log(userData,'信息？');
+      const {type,way,bankCard}=this.state;
+      let value;
+      let merchant_gold=userData.merchant.wait_gold;
+      let money=this.money.state.value;
+      if(Number(money)<100){Toast.offline('提现金额需大于100',2,()=>this.setState({flag:true}));this.chgDisabled(false);return};
+      if(Number(money)>merchant_gold){Toast.offline('您的余额不足',2,()=>this.setState({flag:true}));this.chgDisabled(false);return};
+      if(!bankCard._id){Toast.offline('请选择银行卡',2,()=>this.setState({flag:true}));this.chgDisabled(false);return};
 
-    });
-    console.log(data,'wwwwwwwwww');
-    if(money===''){Toast.offline('请填写金额噢',2);this.chgDisabled(false);return};
+      const data=await fetch.jieSuan({waitGold:this.money.state.value,bankCardId:this.state.bankCard._id}).then(function (res) {
+        console.log(res);
+        res.status?Toast.success(res.message,1.5,()=>history.push('/merchant')):Toast.offline(res.message,1.5);
 
-    // 当为提现市
-    if(type==='1'){
-      if(Number(money)<100){Toast.offline('提现金额需大于100',2);this.chgDisabled(false);return};
-      if(Number(money)>userInfo.gold){Toast.offline('您的余额不足',2);this.chgDisabled(false);return};
-      if(!bankCard._id){Toast.offline('请选择银行卡',2);this.chgDisabled(false);return};
-
-      let sql={apply:{...bankCard,money}}
-      delete sql.apply._id;
-      sql.apply.bankcardId=bankCard._id;
-      value=await fetch.recall(sql);
-    }else if(type==='2'){
-      this.chgDisabled(false)
+      });
       return;
-    }else if(type==='3'){
-      if(Number(money)<100){Toast.offline('转换金额需大于100',2);this.chgDisabled(false);return};
-      if(Number(money)>userInfo.kyJifen){Toast.offline('您的余额不足',2);this.chgDisabled(false);return};
-      let sql={number:money};
-      value=await fetch.exchange(sql);
-    }else{
-      return;
-    }
+      console.log(data,'商家提现信息');
+      if(money===''){Toast.offline('请填写金额噢',2);this.chgDisabled(false);return};
+      console.log(bankCard,'银行卡？');
+      // 当为提现市
 
-    if(data.status){
-      Toast.success(data.message,2);
-      dispatch(routerRedux.goBack())
-    }else{
-      data.fail(data.message,2);
-      this.chgDisabled(false)
+      if(type==='1'){
+        if(Number(money)<100){Toast.offline('提现金额需大于100',2);this.chgDisabled(false);return};
+        if(Number(money)>userInfo.gold){Toast.offline('您的余额不足',2);this.chgDisabled(false);return};
+        if(!bankCard._id){Toast.offline('请选择银行卡',2);this.chgDisabled(false);return};
+
+        let sql={apply:{...bankCard,money}};
+        delete sql.apply._id;
+        sql.apply.bankcardId=bankCard._id;
+        value=await fetch.recall(sql);
+      }else if(type==='2'){
+        this.chgDisabled(false)
+        return;
+      }else if(type==='3'){
+        if(Number(money)<100){Toast.offline('转换金额需大于100',2);this.chgDisabled(false);return};
+        if(Number(money)>userInfo.kyJifen){Toast.offline('您的余额不足',2);this.chgDisabled(false);return};
+        let sql={number:money};
+        value=await fetch.exchange(sql);
+      }else{
+        return;
+      }
+
+      if(data.status){
+        Toast.success(data.message,2);
+        dispatch(routerRedux.goBack())
+      }else{
+        data.fail(data.message,2);
+        this.chgDisabled(false)
+      }
     }
 
   }
@@ -141,7 +152,6 @@ export default class RechargeT extends Component {
     const {history,dispatch,userData}=this.props;
     const userInfo=userData.user;
     let merchant=userData.merchant;
-    console.log(merchant,'!@');
     const {type,way,bankCard}=this.state;
     let value;
     let total_fee=this.money.state.value;
@@ -165,15 +175,12 @@ export default class RechargeT extends Component {
   }
   render() {
     const {history,dispatch,userData}=this.props;
-    console.log(userData,'z2@');
     let hasMore=userData.pagination.hasMore;
     let merchant_gold=userData.merchant.wait_gold;
-    console.log(merchant_gold,'xxxx');
     const cardList=userData.cardList;
 
     const systemConfig=userData.systemConfig;
     const userInfo=userData.user;
-    console.log(userInfo.gold,'!@');
     const {type,disabled,way,bankCard}=this.state;
     // 传入navbBar参数
     const navBarProps = {

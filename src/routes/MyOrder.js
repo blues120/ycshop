@@ -31,7 +31,7 @@ export default class MyOrder extends Component {
         const {dispatch,userData}=this.props;
         const {state} =this.state;
         let page=userData.pagination.page+1;
-        let payload={page,size:10,state};
+        let payload={page,size:5,state};
         if(changed){
             payload.changed=changed;
             payload.page=1;
@@ -63,7 +63,6 @@ export default class MyOrder extends Component {
     render() {
         const {history,dispatch,userData}=this.props;
         let orderList=userData.orderList;
-        console.log(orderList,'!@!');
         let hasMore=userData.pagination.hasMore;
         const {state} =this.state;
         // 传入navbBar参数

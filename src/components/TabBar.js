@@ -40,14 +40,14 @@ const MyTabBar=({selectedTabBar,history}) =>{
               <img src={selectedTabBar==='cart'?Tab21:Tab2}></img>
               <span className={selectedTabBar==='cart'?styles.textActive:""}>购物车</span>
           </div>
-          {/* <div className={styles.tabBarItem} onClick={()=>history.push('/findings')}>
+       <div className={styles.tabBarItem} onClick={()=>history.push('/findings')}>
               <img src={selectedTabBar==='findings'?Tab31:Tab3}></img>
-              <span className={selectedTabBar==='findings'?styles.textActive:""}>发现</span>
-          </div> */}
-          <div className={styles.tabBarItem} onClick={()=>Toast.offline('暂未开放',2)}>
-              <img src={selectedTabBar==='findings'?Tab31:Tab3}></img>
-              <span className={selectedTabBar==='findings'?styles.textActive:""}>发现</span>
+              <span className={selectedTabBar==='findings'?styles.textActive:""}>积分商城</span>
           </div>
+          {/*<div className={styles.tabBarItem} onClick={()=>Toast.offline('暂未开放',2)}>*/}
+              {/*<img src={selectedTabBar==='findings'?Tab31:Tab3}></img>*/}
+              {/*<span className={selectedTabBar==='findings'?styles.textActive:""}>发现</span>*/}
+          {/*</div>*/}
 
           <div className={styles.tabBarItem} onClick={()=>history.push('/mine')}>
               <img src={selectedTabBar==='mine'?Tab41:Tab4}></img>

@@ -77,11 +77,11 @@ export default class MerchantInfo extends Component {
         const {dispatch,userData}=this.props;
         const {files}=this.state;
         let _id=userData.merchant.userId;
-
-        let merchant_name =this.merchant_name.state.value;
+      // console.log(this.outLineFanLiRate.state.value,'xx');
+      let merchant_name =this.merchant_name.state.value;
         let merchant_describe =this.merchant_describe.state.value;
         let outLineFanLiRate =this.outLineFanLiRate.state.value;
-        let merchant_mobile =this.merchant_mobile.state.value;
+      let merchant_mobile =this.merchant_mobile.state.value;
         if(!_id){Toast.offline('获取商家信息失败,请刷新重试!',2);this.chgDisabled(false);return};
         if(merchant_name===''){Toast.offline('商家姓名不可为空',2);this.chgDisabled(false);return};
         if(merchant_describe===''){Toast.offline('商家描述不可为空',2);this.chgDisabled(false);return};
@@ -115,7 +115,8 @@ export default class MerchantInfo extends Component {
     render() {
         const {history,dispatch,userData}=this.props;
         let merchant=userData.merchant;
-        const {files,disabled,edit}=this.state;
+      // console.log(merchant,'数据');
+      const {files,disabled,edit}=this.state;
         const _this=this;
         // 传入navbBar参数
         const navBarProps = {
@@ -180,7 +181,7 @@ export default class MerchantInfo extends Component {
                             }>店铺头像：</Item>
                             <InputItem type='text' defaultValue={merchant.merchant_name} ref={el=>this.merchant_name=el} editable={edit} >商家名称：</InputItem>
                             <InputItem type='text' defaultValue={merchant.merchant_describe} ref={el=>this.merchant_describe=el} editable={edit} >商家描述：</InputItem>
-                            <InputItem type='number' defaultValue={merchant.outLineFanLiRate} ref={el=>this.outLineFanLiRate=el} editable={edit} >返利比：</InputItem>
+                            <InputItem type='number' defaultValue={merchant.outLineFanLiRate*100} ref={el=>this.outLineFanLiRate=el} editable={edit} >返利比(%)：</InputItem>
                             <InputItem type='number' maxLength={11} defaultValue={merchant.merchant_mobile} ref={el=>this.merchant_mobile=el} editable={edit} >联系方式：</InputItem>
                         </List>
                         :

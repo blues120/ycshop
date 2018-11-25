@@ -43,7 +43,6 @@ export default class CollectionList extends Component {
   async componentDidMount() {
     const data = await fetch.collectionListT();
     this.setState({data:data.resource});
-    console.log(data, 'cwt');
   }
 
   render() {
@@ -52,7 +51,6 @@ export default class CollectionList extends Component {
     // 列表是否有下一页
     let hasMore = userData.pagination.hasMore;
     const {state} = this.state;
-    console.log(this.state.data,'ccccccccccc');
     // 传入navbBar参数
     const navBarProps = {
       leftVisible: true,

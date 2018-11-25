@@ -22,8 +22,15 @@ import grid08 from '../assets/gridicon/grid08.png';
 import grid09 from '../assets/gridicon/grid09.png';
 import grid010 from '../assets/gridicon/grid010.png';
 import JDIcon from '../assets/icon/JDIcon.png';
+import * as user from "../services/user";
+import queryString from 'querystring';
 const Item=List.Item;
-
+function AndroidToJs(){
+  alert('安卓al');
+}
+function SaoYiSao() {
+  console.log('方法')
+}
 // 把model 传入props
 @connect(state => ({shopData: state.shop}))
 export default class IndexPage extends Component {
@@ -34,8 +41,8 @@ export default class IndexPage extends Component {
         this.state = {
             selectedTabBar: "shop",
           arr:[],
-          Dt:[]
-
+          Dt:[],
+          title:'无公告'
         };
     }
 
@@ -50,7 +57,7 @@ export default class IndexPage extends Component {
 
         const{dispatch,history}=this.props;
         if(index===0){
-           history.push('/neverup')
+           history.push('/taobao')
         }else if(index===1){
             Toast.offline('暂未开放',2);
         }else if(index===2){
@@ -73,7 +80,6 @@ export default class IndexPage extends Component {
         })
     }
     handleClickImg(data){
-      console.log(data,'轮播图中的每一项');
       const {history}=this.props;
       if(data.type===1){
         history.push('/gooddetail?_id='+data.url)
@@ -82,35 +88,56 @@ export default class IndexPage extends Component {
       }else if(data.type===3){
         window.location.href=data.url;
       }
-
     }
 async componentDidMount(){
-      const data=await fetch.postMS({});
-  const Dt=await fetch.xiaoLB({});
-  this.setState({Dt:Dt.resource});
-
+      const {location}=this.props;
+  const parse=queryString.parse(location.search.replace('?',''));
+  const data=await fetch.postMS({});
+   const Dt=await fetch.xiaoLB({});
+  const Res=await user.gonggaoGet({page:1,size:10});
+   this.setState({Dt:Dt.resource});
   this.setState({arr:data.resource});
-
+  this.setState({title:Res.resource?(Res.resource[0]?Res.resource[0].title:'无'):'无'});
 }
+  handleSao(){
+    var u = navigator.userAgent, app = navigator.appVersion;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if(isAndroid){
+      window.android.SaoYiSao();
+    }
+      SaoYiSao();
+
+  };
+
+
   handleClickID(i){
     const{dispatch}=this.props;
     dispatch(routerRedux.push('/miaodetail'+'?index='+i))
   }
+  AndroidToJs=()=>{
+    alert('安卓al');
+  }
+  AndroidToJs(){
+    alert('安卓al');
+  }
     render() {
-      const {arr}=this.state;
+      function AndroidToJs(){
+        alert('安卓al');
+      }
+      const {arr,title}=this.state;
 
       const {history,dispatch,shopData}=this.props;
-        // 列表是否有下一页
+      // 列表是否有下一页
         let hasMore=shopData.pagination.hasMore;
         // 轮播图数据
         let carouselList=shopData.carouselList;
-      console.log(carouselList,'轮播图数据');
       // 分类数据
         let classifyList=shopData.classifyList;
         let label=[
-            {name:'唯品会',pic:grid01},
+            {name:'淘宝',pic:require('../../src/assets/images/tb.png')},
             {name:'京东',pic:grid02},
-            {name:'拼多多',pic:grid03},
+            {name:'拼多多',pic:require('../../src/assets/images/000.png')},
         ]
         classifyList=label.concat(classifyList);
 
@@ -120,7 +147,7 @@ async componentDidMount(){
       // 热门商品列表数据
         let hotGoodsList=shopData.hotGoodsList;
 
-        // 商品列表的参数
+      // 商品列表的参数
         const goodListProps = {
             goodData: hotGoodsList,
             tapItem(item){
@@ -137,6 +164,7 @@ async componentDidMount(){
 
         return (
             <div className={styles.rootBox}>
+
                 <style>
                     {`
                         .am-carousel ul{
@@ -183,7 +211,8 @@ async componentDidMount(){
                         {/* 搜索 */}
                         <div className={styles.searchBox}>
                             <SearchBar placeholder="搜索" onSubmit={(val)=>history.push('/goodlist?keyword='+val)} />
-                        </div>
+                            <div className={styles.ssBox} onClick={this.handleSao.bind(this)}><img src={require('.././assets/images/222.png')} alt=""/></div>
+                          </div>
                     </div>
 
                     {/*分区*/}
@@ -207,15 +236,18 @@ async componentDidMount(){
                     />
                     {/* 公告 */}
 
-                  {
-                    newsList.length>0?(
-                      <List>
-                        <NoticeBar marqueeProps={{ loop: true, style: { padding: '0 7.5px' } }}>
-                          {newsList[0].title}
-                        </NoticeBar>
-                      </List>
-                    ):""
+                  <div className={styles.gG}>
+                    {
+                      newsList.length>0?(
+                        <List style={{width:'90%'}} onClick={()=>history.push('/notice')}>
+                          <NoticeBar marqueeProps={{ loop: true, style: { padding: '0 7.5px' } }}>
+                            {title}
+                          </NoticeBar>
+                        </List>
+                      ):""
                     }
+                    <div className={styles.gd}>更多</div>
+                  </div>
                   {
                     arr.length<1?'':(<div className={styles.notice}>
                       <span>商城公告</span>

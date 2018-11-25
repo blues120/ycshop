@@ -11,7 +11,7 @@ import rightIcon from '../assets/icon/rightIcon.png';
 
 const Item = List.Item;
 @connect(state => ({shopData: state.shop}))
-export default class ConfirmOrder extends Component {
+export default class Cop extends Component {
 
   // 构造函数
   constructor(props) {
@@ -32,7 +32,7 @@ export default class ConfirmOrder extends Component {
   // 前往地址页面
   goAddr() {
     const {dispatch} = this.props;
-    dispatch(routerRedux.push('/myaddr?type=1'))
+    dispatch(routerRedux.push('/myaddr?type=1&index=1'))
   }
   // 计算价格
   componentDidMount() {
@@ -101,7 +101,8 @@ export default class ConfirmOrder extends Component {
     let paid = price;
     let shipping = 1;
     if(temporaryOrder.store) {
-      const value = await fetch.addOrder({
+/*--*/
+      const value = await fetch.copaddOrder({
         goodsList,
         userName,
         address,
@@ -109,11 +110,11 @@ export default class ConfirmOrder extends Component {
         payable,
         paid,
         shipping,
-        activeState: this.state.activeState
+        // activeState: this.state.activeState
       });
       if (value.status) {
         Toast.success(value.message, 2, () => {
-          dispatch(routerRedux.push('/payorder?_id=' + value.resource._id))
+          dispatch(routerRedux.push('/mine'))
         })
       } else {
         Toast.fail(value.message, 2, () => {
@@ -122,7 +123,7 @@ export default class ConfirmOrder extends Component {
       }
     }
     // (temporaryOrder.store && temporaryOrder.store.length > 1)
-  else{
+    else{
       const value = await fetch.addOrder({
         goodsList,
         userName: temporaryOrder.store ? temporaryOrder.store[0].name : '',
@@ -238,7 +239,7 @@ export default class ConfirmOrder extends Component {
             </div>
             <div className={styles.btnBox}>
               <Button type='primary' disabled={disabled} loading={disabled}
-                      onClick={() => this.addOrder()}>确认订单</Button>
+                      onClick={() => this.addOrder()}>立即兑换</Button>
             </div>
           </div>
         </div>

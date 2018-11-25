@@ -35,7 +35,7 @@ export default class GoodDetail extends Component {
             num:1,
             selected:[],
             s_oldPrice:[],
-            price:0,
+            price   :0,
             stock:0,
             selectedStr:''
         };
@@ -66,29 +66,36 @@ export default class GoodDetail extends Component {
 
 
     //
-    componentWillMount(){
-        const {shopData}=this.props;
-        let goodDetail=shopData.goodDetail;
-        if(goodDetail.specifications){
-            let selected=[];
-            goodDetail.specifications.map((i,index)=>{
-                let item={name:i.goodsPropertyCategoryName,value:i.goodsPropertyList[0].goodsPropertyName};
-                selected.push(item);
-            })
-            this.setState({selected},()=>{this.getPrice()})
-        }
 
+      componentWillMount(){
+      this.cwt=true;  //
+       if(this.cwt){
+         const {shopData}=this.props;
+         let goodDetail=shopData.goodDetail;
+         if(goodDetail.specifications){
+           let selected=[];
+           goodDetail.specifications.map((i,index)=>{
+             let item={name:i.goodsPropertyCategoryName,value:i.goodsPropertyList[0].goodsPropertyName};
+             selected.push(item);
+           });
+           this.setState({selected},()=>{this.getPrice()})
+         }
+       }
+      }
+    componentWillUnmount(){
+      this.cwt=false;  //
+      this.setState({selected:[]});
     }
     //
     componentWillReceiveProps(nextProps){
         const {shopData}=nextProps;
         let goodDetail=shopData.goodDetail;
-        if(goodDetail.specifications){
+      if(goodDetail.specifications){
             let selected=[];
             goodDetail.specifications.map((i,index)=>{
                 let item={name:i.goodsPropertyCategoryName,value:i.goodsPropertyList[0].goodsPropertyName};
                 selected.push(item);
-            })
+            });
             this.setState({selected},()=>{this.getPrice()})
         }
 
@@ -96,28 +103,31 @@ export default class GoodDetail extends Component {
     // 更改规格
     chgProp(index,value){
         let {selected}=this.state;
-        selected[index].value=value;
+      selected[index].value=value;
         let selectedStr='';
         this.setState({selected},()=>{this.getPrice()});
     }
     // 更改数量
     chgNum=(num)=>{
         this.setState({num},()=>{this.getPrice()});
-    }
+    };
 
     // 计算价格
     getPrice(){
         const {history,dispatch,shopData}=this.props;
         const {num,propModal,selected}=this.state;
-        let goodDetail=shopData.goodDetail;
+      // console.log(selected,'规格？');
+      let goodDetail=shopData.goodDetail;
         let selectedStr='';
         selected.map((i,index)=>{
             selectedStr+=i.name+':'+i.value;
             if(index!==selected.length-1){
                 selectedStr+=',';
             }
-        })
-        this.setState({selectedStr})
+        });
+
+      this.setState({selectedStr});
+      // console.log(selectedStr,'拼接？');
         // 对比商品价格模版确定价格
         goodDetail.model.map((i,index)=>{
             if(i.propertyCombination==selectedStr){
@@ -133,7 +143,7 @@ export default class GoodDetail extends Component {
         let goodDetail=shopData.goodDetail;
         const {num,propModal,selected,price,stock,selectedStr}=this.state;
 
-        let sql={goodsId:goodDetail._id,number:num,type:selectedStr,selectType:true}
+        let sql={goodsId:goodDetail._id,number:num,type:selectedStr,selectType:true};
         const value=await fetch.addCart(sql);
         if(value.status){
             Toast.success(value.message,2);
@@ -146,16 +156,16 @@ export default class GoodDetail extends Component {
     async buyNow(){
         const {dispatch,shopData}=this.props;
         let goodDetail=shopData.goodDetail;
-
-        const {num,propModal,selected,price,stock,selectedStr}=this.state;
+      // console.log(goodDetail,'xx');
+      const {num,propModal,selected,price,stock,selectedStr}=this.state;
         let type={};
         goodDetail.model.map((i,index)=>{
             if(i.propertyCombination==selectedStr){
                 type=i;
             }
-        })
+        });
         let goods=goodDetail;
-        let sql={storeGoods:[{goods,goodsId:goodDetail._id,number:num,type,selectType:true}]}
+      let sql={storeGoods:[{goods,goodsId:goodDetail._id,number:num,type,selectType:true}]}
         const value=await fetch.saveOrder(sql);
         if(value.status){
             Toast.success(value.message,2,()=>{
@@ -172,7 +182,6 @@ export default class GoodDetail extends Component {
 
     async collection(goodsId,goodsName,goodsImg,state){
         const {dispatch}=this.props;
-
         const value=await fetch.collection({goodsId,goodsName,goodsImg,state:0});
         let str='';
         if(state){str='添加'}else{str='取消'}
@@ -190,17 +199,21 @@ export default class GoodDetail extends Component {
     }
 
     render() {
+
         const {history,dispatch,shopData}=this.props;
         const {num,propModal,selected,price,stock,s_oldPrice}=this.state;
-        let goodDetail=shopData.goodDetail;
-        let checkCollection=shopData.checkCollection;
+      let goodDetail=shopData.goodDetail;
+      let module=goodDetail?goodDetail.model?goodDetail.model[0]:'':'';
+      let propertyPrice=module.propertyPrice?module.propertyPrice:''; //当前价格
+      let propertyOriginalPrice=module.propertyOriginalPrice?module.propertyOriginalPrice:'';//原价
 
-        console.log(goodDetail,'@@');
+      let checkCollection=shopData.checkCollection;
         let systemConfig=shopData.systemConfig;
         let reviewList=shopData.reviewList;
         let reviewTotal=shopData.pagination.total;
         const _this=this;
-        const DoubleBtnProps={
+
+      const DoubleBtnProps={
             btnWidth:250,
             btnHeight:80,
             leftContent:'加入购物车',
@@ -225,7 +238,7 @@ export default class GoodDetail extends Component {
                         <div className={styles.header}>
                             {/* 轮播 */}
                             <Carousel
-                                autoplay={false}
+                                autoplay={true}
                                 infinite
                             >
                                 {goodDetail.multiple.map((i,index) => (
@@ -268,9 +281,9 @@ export default class GoodDetail extends Component {
                         <WhiteSpace size='xs'></WhiteSpace>
                         {/* 商品基础信息 */}
                         <div className={styles.goodInfo}>
-
-                            <p className={styles.price}>¥{Math.round(parseFloat((price-goodDetail.availableIntegral+goodDetail.originalIntegral*systemConfig.ysjfDKRate)*100))/100} <span>抵扣价</span><span>(使用积分后)</span><span>赠送{goodDetail.returnYSjifen*100}%</span></p>
-                            <p className={styles.oldPrice}>当前价：<span>{price}</span>原价：<span>{s_oldPrice}</span>销量：<span>{goodDetail.sales}</span></p>
+{/*Math.round(parseFloat((propertyPrice-goodDetail.availableIntegral+goodDetail.originalIntegral*systemConfig.ysjfDKRate)*100))/100*/}
+                            <p className={styles.price}>¥{propertyPrice} <span>抵扣价</span><span>(使用积分后)</span><span>赠送{goodDetail.returnYSjifen*100}%</span></p>
+                            <p className={styles.oldPrice}>当前价：<span>{propertyPrice}</span>原价：<span>{propertyOriginalPrice}</span>销量：<span>{goodDetail.sales}</span></p>
                             {/* <p className={styles.jifen}>
                                 原价
                                 <span>{goodDetail.availableIntegral+goodDetail.originalIntegral*systemConfig.ysjfDKRate}元</span>
@@ -417,7 +430,6 @@ export default class GoodDetail extends Component {
                                     更改数量
                                 </Item>
                             </List>
-
                             {/* 确定按钮 */}
                             <div className={styles.addBtnBox}>
                                 <Button type='primary' onClick={this.onClose('propModal')}>保存</Button>

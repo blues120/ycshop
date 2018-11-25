@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Header from "../components/Header/Header";
+import Header from "../Common/Header/Header";
 import style from './styles/Message.less';
 import MyNavBar from "../components/MyNavBar";
 import {routerRedux} from "dva/router";
@@ -27,7 +27,6 @@ export default class Message extends Component {
   render() {
     const {history,dispatch,shopData}=this.props;
     const {data}=this.state;
-    console.log(data);
     const navBarProps = {
       leftVisible:true,
       leftFunc(){
